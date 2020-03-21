@@ -1,2 +1,2 @@
 # swiftpurse
-My playground for learning Swift.
+My swift learning playground.
