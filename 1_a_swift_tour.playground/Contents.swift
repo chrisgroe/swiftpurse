@@ -1,11 +1,14 @@
 import Cocoa
 
 
+// -------------------------------------------------------------
 /// 1)
+// -------------------------------------------------------------
 print("Hello World")
 
+// -------------------------------------------------------------
 // 2) Constants and Variables
-
+// -------------------------------------------------------------
 let test = 123
 // error online once --test = 233
 
@@ -13,21 +16,25 @@ var test2 = 1234
 test2 = 4321
 let test3 = test2 // Constants must not be known at compile time, but you must assign its value only once.
 
-
+// -------------------------------------------------------------
 // 3) Infer types or explicit types
+// -------------------------------------------------------------
 var implicitIntger = 70
 var implicitDouble = 70.0
 var explicitDouble:Double = 70
 
 // experiment: Create constant with explicit type of Float and a value of 4
 let explicitConstFloat:Float = 4
-
+// -------------------------------------------------------------
 // 4) No implicit conversions
+// -------------------------------------------------------------
 var str = "Test"
 var implInt = 123
 print(str + String(implInt)) // when conversion is removed --> error
 
+// -------------------------------------------------------------
 // 5) String interpolation
+// -------------------------------------------------------------
 var cakes = 13
 var breads = 10
 print("cakes:\(cakes), breads:\(breads), cakes+breads:\(cakes+breads)")
@@ -35,7 +42,9 @@ print("cakes:\(cakes), breads:\(breads), cakes+breads:\(cakes+breads)")
 var name="Christian"
 print("Hello \(name)")
 
+// -------------------------------------------------------------
 // 6) Multiple line strings
+// -------------------------------------------------------------
 print("""
 line 1
     line 2
@@ -49,30 +58,41 @@ print("""
     line 6
     """)
 
+// -------------------------------------------------------------
 // 7) Arrays
+// -------------------------------------------------------------
 var testArray1 = ["ItemA", "Item B", "Item C"]
 var testArray2 = ["ItemA", "Item B", "Item C" , ] // comma after last element is allowed
 
 testArray2[1] = "Replaced"
 testArray2
 
+// -------------------------------------------------------------
 // 8) Dictionaries
+// -------------------------------------------------------------
 var testDict = [
     "key1" : "value 1",
     "key2" : "value 2", // commat after last element is allowed
 ]
-
+// -------------------------------------------------------------
 // 9) Arrays automatically grow
+// -------------------------------------------------------------
 var testArray3 = ["Hello"]
 testArray3.append("World")
 
+// -------------------------------------------------------------
 // 10) Create empty array or dictionary
+// -------------------------------------------------------------
 var testArray4 = [String] () // Initializer list
 var testDict2 = [String : String] () // Initializer list
 
+// -------------------------------------------------------------
 // 11) If type conversion can be infered [] can be used for empty array or [:] for empty dict
+// -------------------------------------------------------------
 
+// -------------------------------------------------------------
 // 12) For loops
+// -------------------------------------------------------------
 var items = [1,2,3,4,5]
 for i in items {
     if i>3 { // must be boolean .. if i {} does not work
@@ -82,8 +102,9 @@ for i in items {
         print(-i)
     }
 }
-
+// -------------------------------------------------------------
 // 13) Optionals
+// -------------------------------------------------------------
 var optTest:Int? = 30
 print(optTest == nil)
 
@@ -102,17 +123,17 @@ if let name = optName{
     print("Hello unknown man")
 }
 
-
-
+// -------------------------------------------------------------
 // 14) Optional default value
-
+// -------------------------------------------------------------
 var ot1: String? = "hello"
 var ot2: String? = nil
 
 print("ot1 = \(ot1 ?? "unknown"), ot2 = \(ot2 ?? "unknown")");
 
+// -------------------------------------------------------------
 // 15) Switch case
-
+// -------------------------------------------------------------
 let vegetable = "red pepper"
 switch vegetable {
 case "celery":
@@ -122,12 +143,12 @@ case "cucumber", "watercress":
     print("That would make a good tea sandwich.")
 case let x where x.hasSuffix("pepper"): // TODO: Understand these
     print("Is it a spicy \(x)?")
-default: // switch mus be exhaustive .. therefore default case is required here
+default: // switch must be exhaustive .. therefore default case is required here
     print("Everything tastes good in soup.")
 }
-
+// -------------------------------------------------------------
 // 16) Iterate key-value pairs
-
+// -------------------------------------------------------------
 var tdict = [
     "row 1" : [11,12,13,14,15,16],
     "row 2" : [21,22,23,24,25,26]
@@ -136,17 +157,18 @@ var tdict = [
 for (key, items) in tdict {
     print("key \(key) - values \(items)")
 }
-
+// -------------------------------------------------------------
 // 17) while
-
+// -------------------------------------------------------------
 var i = 5
 while i>0
 {
     print("while \(i)")
     i = i - 1
 }
-
+// -------------------------------------------------------------
 // 18) repeat while
+// -------------------------------------------------------------
 i = 5
 repeat
 {
@@ -154,8 +176,9 @@ repeat
     i = i - 1
 } while i>0
 
-
+// -------------------------------------------------------------
 // 19) For loop with index
+// -------------------------------------------------------------
 for i in 0..<5 // 0 to 4
 {
     print("for \(i)")
@@ -166,7 +189,9 @@ for i in 0...5 // 0 to 5
     print("for \(i)")
 }
 
+// -------------------------------------------------------------
 // 20) Functions
+// -------------------------------------------------------------
 func doubleArg(value : Int) -> Int {
     return value*2
 }
@@ -179,8 +204,9 @@ func doubleArg2(_ value : Int) -> Int {
 
 doubleArg2(5)
 
+// -------------------------------------------------------------
 // 21) Returns multiple values via tuples
-
+// -------------------------------------------------------------
 func testFunc(value: Int) -> (first: Int, second:Int, third:Int){
     return (value, 2 * value, 3 * value)
 }
@@ -189,7 +215,9 @@ k.first
 k.second
 k.third
 
-// 22) First class objects
+// -------------------------------------------------------------
+// 22) Functions are first class objects
+// -------------------------------------------------------------
 func createIncrementer() -> ((Int)->Int)
 {
     func increment(_ value : Int)-> Int {
@@ -201,7 +229,9 @@ func createIncrementer() -> ((Int)->Int)
 var incr = createIncrementer()
 incr(5)
 
+// -------------------------------------------------------------
 // 23) Functions as arguments
+// -------------------------------------------------------------
 func funcArg(f : ((Int)->Int)){
     print(f(5))
 }
@@ -210,7 +240,9 @@ func increment(_ value : Int)-> Int {
 }
 funcArg(f:increment)
 
-// 24) Closurer <-- Review
+// -------------------------------------------------------------
+// 24) Closures <-- Review
+// -------------------------------------------------------------
 
 // Closures and nested function do have access to variables of the scope where they are created
 var closure = { (value:Int) -> Int in
@@ -218,8 +250,9 @@ var closure = { (value:Int) -> Int in
 }
 
 print(closure(4))
-
+// -------------------------------------------------------------
 // 25) Single statement closures
+// -------------------------------------------------------------
 // Review: map
 var numbers = [10, 20, 30, 40]
 print(numbers.map({number in
@@ -232,7 +265,9 @@ print(numbers.map({number in 3*number})) // Review: map
 // or even shorter
 print(numbers.map({4*$0}))
 
+// -------------------------------------------------------------
 // 26) Classes
+// -------------------------------------------------------------
 class TestClass {
     var attrib1 = 0
     var attrib2 = 0
@@ -250,7 +285,9 @@ class TestClass {
 var testClass = TestClass(attrib1:40)
 testClass.doSomething()
 
+// -------------------------------------------------------------
 // 27) Inheritance
+// -------------------------------------------------------------
 class InhTestClass: TestClass {
     override init(attrib1: Int) {
         super.init(attrib1:attrib1*10)
@@ -260,7 +297,9 @@ class InhTestClass: TestClass {
 var inhTestClass = InhTestClass(attrib1 : 10)
 inhTestClass.doSomething()
 
+// -------------------------------------------------------------
 // 28) Setter, Getter, WillSet, DidSet
+// -------------------------------------------------------------
 class GetSet {
     var  a : Int {
         get {
@@ -289,4 +328,193 @@ var getSet = GetSet()
 getSet.a = 10
 getSet.b = 10
 
+// -------------------------------------------------------------
 // 29) nil handling
+// -------------------------------------------------------------
+// test?.testMethod() - returns nil if test? Is nil
+
+// -------------------------------------------------------------
+// 30) Enumerations.
+// -------------------------------------------------------------
+enum Rank : Int{
+    case first = 1
+    case second = 2
+}
+
+var rank:Rank = Rank.first;
+
+// -------------------------------------------------------------
+// 31) Enumerations can have methods
+// -------------------------------------------------------------
+enum Rank2 : Int{
+    case first = 1
+    case second = 2
+    
+    func toString() -> String
+    {
+        switch(self)
+        {
+        case .first:
+            return("First")
+        case .second:
+            return("Second")
+        }
+    }
+}
+
+var rank2:Rank2 = .first
+var rank2_2 = Rank2.first
+rank2.toString()
+
+// -------------------------------------------------------------
+// 32) Access raw value
+// -------------------------------------------------------------
+rank2.rawValue
+var rank3_1 = Rank2(rawValue: 1)
+var rank3_2 = Rank2(rawValue: 0) // does not exists
+
+if let rank3_3 = Rank2(rawValue:2) {
+    print(rank3_3.toString())
+}
+
+// -------------------------------------------------------------
+// 33) Enum with properties
+// -------------------------------------------------------------
+enum PropEnum {
+    case sucess(arg:Int)
+    case failure(error:String)
+    
+    func toString() -> String {
+        switch(self)
+        {
+        case let .failure(error): // let extracts all properties
+            return("error \(error)")
+        case let .sucess(arg):
+            return ("arg=\(arg)")
+        }
+    }
+}
+
+var succ = PropEnum.sucess(arg: 5)
+var fail = PropEnum.failure(error: "TEST")
+succ.toString()
+fail.toString()
+
+// -------------------------------------------------------------
+// 34) Structs are value types
+// -------------------------------------------------------------
+struct Point {
+    var x : Int = 10
+    var y : Int = 20
+}
+
+let p = Point(x: 3, y: 2)
+
+// -------------------------------------------------------------
+// 35) Protocols
+// -------------------------------------------------------------
+protocol TestProtocol {
+    var a : Int {get}
+    func testMethod()
+}
+
+class TestTester : TestProtocol {
+    var a: Int
+    
+    init() {
+        a = 10
+    }
+    func testMethod() {
+        
+    }
+}
+
+var testy = TestTester()
+var testProtocoll = testy as TestProtocol // convert to protocol
+
+var testProtocol2 : TestProtocol = testy // assign protocol
+
+// -------------------------------------------------------------
+// 36) Extensions
+// -------------------------------------------------------------
+extension Int : TestProtocol{
+    var a: Int {
+        return 5
+    }
+    
+    func testMethod() {
+        print("test")
+    }
+    
+    
+}
+var num = 5
+num.testMethod()
+10.testMethod()
+
+// -------------------------------------------------------------
+// 37) Error Handling through error Protocol
+// -------------------------------------------------------------
+enum CustomError : Error {
+    case test1
+    case test2
+    case test3(arg : String)
+}
+
+func testFunc() throws {
+    throw CustomError.test2
+}
+do {
+    try testFunc()
+} catch {
+    error // standardd name is error
+}
+
+func testFunc2() throws -> Int{
+    throw CustomError.test3(arg:"FDF")
+    return 0
+}
+do {
+    try testFunc2()
+} catch let terr as CustomError{
+    terr // standardd name is err
+    
+}
+
+// single line
+var result = try? testFunc2()
+
+// -------------------------------------------------------------
+// 38) Defer
+// -------------------------------------------------------------
+func testFuncDefer() {
+    var a = 10
+    defer {
+        a=0 // will be executed after the function returns...also when throw occured
+    }
+    a=10
+}
+
+// -------------------------------------------------------------
+// 39) Generics
+// -------------------------------------------------------------
+func testGeneric<Item>(a : Item) -> Item {
+    return a
+}
+testGeneric(a: 4)
+testGeneric(a: "TEST")
+
+// with where generics can have a list of requirements
+func anyCommonElements<T: Sequence, U: Sequence>(_ lhs: T, _ rhs: U) -> Bool
+    where T.Element: Equatable, T.Element == U.Element
+{
+    for lhsItem in lhs {
+        for rhsItem in rhs {
+            if lhsItem == rhsItem {
+                return true
+            }
+        }
+    }
+    return false
+}
+anyCommonElements([1, 2, 3], [3])
