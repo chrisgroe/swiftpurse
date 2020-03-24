@@ -112,8 +112,28 @@ var cakes = 13
 var breads = 10
 print("cakes:\(cakes), breads:\(breads), cakes+breads:\(cakes+breads)")
 
+print(#"Write an interpolated string in Swift using \(multiplier)."#)
+
+
 var name="Christian"
 print("Hello \(name)")
+
+var emptyString = ""
+if emptyString.isEmpty {
+    print("Nothing to see here")
+}
+
+var variableString = "Horse"
+variableString += " and carriage"
+// variableString is now "Horse and carriage“
+
+
+var welcome="Welcome"
+let exclamationMark: Character = "!" // Character class
+welcome.append(exclamationMark)
+
+// counting characters
+welcome.count
 
 // -------------------------------------------------------------
 // 6) Multiple line strings
@@ -147,12 +167,14 @@ var testDict = [
     "key1" : "value 1",
     "key2" : "value 2", // commat after last element is allowed
 ]
+
+testDict.count
 // -------------------------------------------------------------
 // 9) Arrays can automatically grow
 // -------------------------------------------------------------
 var testArray3 = ["Hello"]
 testArray3.append("World")
-
+testArray3.count
 // -------------------------------------------------------------
 // 10) Create empty array or dictionary
 // -------------------------------------------------------------
@@ -185,6 +207,33 @@ print("---")
 for i in items[...2] {
     print(i)
 }
+
+// -------------------------------------------------------------
+// String index
+// -------------------------------------------------------------
+let greeting = "Guten Tag!"
+greeting[greeting.startIndex]
+// G
+greeting[greeting.index(before: greeting.endIndex)]
+// !
+greeting[greeting.index(after: greeting.startIndex)]
+// u
+let index = greeting.index(greeting.startIndex, offsetBy: 7)
+greeting[index]
+
+// Insert at index
+var welcome2 = "hello"
+welcome2.insert("!", at: welcome2.endIndex)
+// welcome now equals "hello!"
+
+welcome2.insert(contentsOf: " there", at: welcome2.index(before: welcome2.endIndex))
+// welcome now equals "hello there!“
+
+
+/// remove single char
+welcome2.remove(at: welcome2.startIndex)
+welcome2
+
 // -------------------------------------------------------------
 // 13) Optionals
 // -------------------------------------------------------------
