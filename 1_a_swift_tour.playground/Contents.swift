@@ -152,13 +152,49 @@ print("""
     """)
 
 // -------------------------------------------------------------
-// 7) Arrays
+// Arrays
 // -------------------------------------------------------------
 var testArray1 = ["ItemA", "Item B", "Item C"]
 var testArray2 = ["ItemA", "Item B", "Item C" , ] // comma after last element is allowed
 
 testArray2[1] = "Replaced"
 testArray2
+
+
+var threeDoubles = Array(repeating: 0.0, count: 3)
+var anotherThreeDoubles = Array(repeating: 2.5, count: 3)
+// anotherThreeDoubles is of type [Double], and equals [2.5, 2.5, 2.5]
+
+var sixDoubles = threeDoubles + anotherThreeDoubles
+// sixDoubles is inferred as [Double], and equals [0.0, 0.0, 0.0, 2.5, 2.5, 2.5]“
+
+
+// -------------------------------------------------------------
+// Sets
+// -------------------------------------------------------------
+let oddDigits: Set = [1, 3, 5, 7, 9]
+let evenDigits: Set = [0, 2, 4, 6, 8]
+let singleDigitPrimeNumbers: Set = [2, 3, 5, 7]
+
+oddDigits.union(evenDigits).sorted()
+// [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+oddDigits.intersection(evenDigits).sorted()
+// []
+oddDigits.subtracting(singleDigitPrimeNumbers).sorted()
+// [1, 9]
+oddDigits.symmetricDifference(singleDigitPrimeNumbers).sorted()
+// [1, 2, 9]“
+
+let houseAnimals: Set = ["🐶", "🐱"]
+let farmAnimals: Set = ["🐮", "🐔", "🐑", "🐶", "🐱"]
+let cityAnimals: Set = ["🐦", "🐭"]
+
+houseAnimals.isSubset(of: farmAnimals)
+// true
+farmAnimals.isSuperset(of: houseAnimals)
+// true
+farmAnimals.isDisjoint(with: cityAnimals)
+// true“
 
 // -------------------------------------------------------------
 // 8) Dictionaries
@@ -683,3 +719,5 @@ anyCommonElements([1, 2, 3], [3])
 // 40) Semicolons
 // -------------------------------------------------------------
 let a0=10; print(a0) // only required for mupltiple commands on single line
+
+
