@@ -100,8 +100,14 @@ var implInt = 123
 print(str + String(implInt)) // when conversion is removed --> error
 
 // -------------------------------------------------------------
-// 5) String interpolation
+// 5) Strings
 // -------------------------------------------------------------
+
+let dollarSign = "\u{24}"        // $,  Unicode scalar U+0024
+let blackHeart = "\u{2665}"      // ♥,  Unicode scalar U+2665
+let sparklingHeart = "\u{1F496}" // 💖, Unicode scalar U+1F496“
+
+
 var cakes = 13
 var breads = 10
 print("cakes:\(cakes), breads:\(breads), cakes+breads:\(cakes+breads)")
@@ -169,6 +175,16 @@ for i in items {
         print(-i)
     }
 }
+print("---")
+for i in items[2...] {
+    print(i)
+}
+
+print("---")
+
+for i in items[...2] {
+    print(i)
+}
 // -------------------------------------------------------------
 // 13) Optionals
 // -------------------------------------------------------------
@@ -180,15 +196,42 @@ print(optTest2 == nil)
 
 var optName:String? = "Christian"
 
+// forced unwrapping
+if optName != nil {
+    optName! // forced unwraping .. i'm sure that the optional contains a value
+}
+
+//optional binding .. can also be used with var
 if let name = optName{
     print("Hello \(name)")
 }
+
+var optName2:String? = "Timo"
+if let name = optName, let name2 = optName2{ // optional binding of multiple values...this aborts when one of them is nil
+    print("Hello \(name),  \(name2)")
+}
+
 optName = nil
 if let name = optName{
     print("Hello \(name)")
 } else {
     print("Hello unknown man")
 }
+
+let possibleNumber = "123"
+let convertedNumber = Int(possibleNumber)
+// convertedNumber is inferred to be of type "Int?", or "optional Int“
+type(of:convertedNumber)
+
+// -------------------------------------------------------------
+// Implicitly Unwrapped Optionals - gives right to access optional without special means..assume that it is accessible
+// -------------------------------------------------------------
+let possibleString: String? = "An optional string."
+let forcedString: String = possibleString! // requires an exclamation mark
+
+let assumedString: String! = "An implicitly unwrapped optional string."
+let implicitString: String = assumedString // no need for an exclamation mark“
+// optional binding also works with implicitly unwrapped optionals
 
 // -------------------------------------------------------------
 // 14) Optional default value
