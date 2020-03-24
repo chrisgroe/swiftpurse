@@ -2,31 +2,98 @@ import Cocoa
 
 
 // -------------------------------------------------------------
-// 1)
+//  Print
 // -------------------------------------------------------------
 print("Hello World")
+print("Hello World",  terminator: "---" )
+print("A","B","C", separator:"+++")
 
 // -------------------------------------------------------------
-// 2) Constants and Variables
+// Constants and Variables
 // -------------------------------------------------------------
-let test = 123
+let constant = 123
 // error online once --test = 233
 
-var test2 = 1234
-test2 = 4321
-let test3 = test2 // Constants must not be known at compile time, but you must assign its value only once.
+var variable = 1234
+variable = 4321
+let constant2 = variable // Constants must not be known at compile time, but you must assign its value only once.
+
+let a = 0, b = 0, c = 0 // multiple declarations in one line
+var x = 0, y = 0, z = 0 // multiple declarations in one line
 
 // -------------------------------------------------------------
-// 3) Infer types or explicit types
+// Infer types or explicit types
 // -------------------------------------------------------------
-var implicitIntger = 70
-var implicitDouble = 70.0
-var explicitDouble:Double = 70
+var implicitIntger = 70 // implicit Int
+var implicitDouble = 70.0 // implicit Double
+var implicitDouble2 = 3 + 0.124 // implicit Double
+var explicitDouble:Double = 70 // explicit ... this is called type annotation
+let explicitConstFloat:Float = 4 // explicit ... this is called type annotation
 
-// experiment: Create constant with explicit type of Float and a value of 4
-let explicitConstFloat:Float = 4
+var x0,y0,z0 : Double; // mutiple type annotations in one line
+
 // -------------------------------------------------------------
-// 4) No implicit conversions
+// Integers
+// -------------------------------------------------------------
+var int8: Int8 = 10
+Int8.min // mninium bound
+Int8.max // maximum bound
+
+var uin8: UInt8 = 10
+UInt8.min
+UInt8.max
+
+Int.min
+Int.max
+
+var binary = 0b00100
+var octal = 0o0404
+var hex = 0xAAA
+
+// easier to read
+let oneMillion = 1_000_000
+
+// -------------------------------------------------------------
+// Floating Point
+// -------------------------------------------------------------
+let decimalDouble = 12.1875
+let exponentDouble = 1.21875e1
+let hexadecimalDouble = 0xC.3p0
+
+// easier to read
+let justOverOneMillion = 1_000_000.000_000_1
+
+// -------------------------------------------------------------
+// Type Conversions
+// -------------------------------------------------------------
+let u8 : UInt8 = 50
+let u16 = UInt16(u8)
+let s8 = String(u8)
+
+let u16_2 : UInt16 = 100
+let u8_2 = UInt8(u16_2) // only safe for range 0 .. 255
+
+// ------------------------------------------------------------
+// Type Alias
+// -------------------------------------------------------------
+typealias TestType = Int
+
+var xyz : TestType  = 10
+// ------------------------------------------------------------
+// Tuples
+// -------------------------------------------------------------
+let tuple = (3,4,5, "test")
+let (first,_,third,fourth) = tuple // _ ignores value
+fourth
+
+//access by index
+tuple.3
+
+// tuples can be named
+let tuple2=(name:"Christian", age:40)
+
+// -------------------------------------------------------------
+// Swift does no implicit conversions
 // -------------------------------------------------------------
 var str = "Test"
 var implInt = 123
@@ -75,7 +142,7 @@ var testDict = [
     "key2" : "value 2", // commat after last element is allowed
 ]
 // -------------------------------------------------------------
-// 9) Arrays automatically grow
+// 9) Arrays can automatically grow
 // -------------------------------------------------------------
 var testArray3 = ["Hello"]
 testArray3.append("World")
@@ -241,15 +308,16 @@ func increment(_ value : Int)-> Int {
 funcArg(f:increment)
 
 // -------------------------------------------------------------
-// 24) Closures <-- Review
+// 24) Closures
 // -------------------------------------------------------------
 
 // Closures and nested function do have access to variables of the scope where they are created
-var closure = { (value:Int) -> Int in
+var closure = { (value:Int) -> Int in // after in the code starts
     return(value*3)
 }
 
 print(closure(4))
+
 // -------------------------------------------------------------
 // 25) Single statement closures
 // -------------------------------------------------------------
@@ -344,7 +412,7 @@ enum Rank : Int{
 var rank:Rank = Rank.first;
 
 // -------------------------------------------------------------
-// 31) Enumerations can have methods
+// 31) Enums can have methods
 // -------------------------------------------------------------
 enum Rank2 : Int{
     case first = 1
@@ -367,7 +435,7 @@ var rank2_2 = Rank2.first
 rank2.toString()
 
 // -------------------------------------------------------------
-// 32) Access raw value
+// 32) Access raw value of enum
 // -------------------------------------------------------------
 rank2.rawValue
 var rank3_1 = Rank2(rawValue: 1)
@@ -437,7 +505,7 @@ var testProtocol2 : TestProtocol = testy // assign protocol
 // -------------------------------------------------------------
 // 36) Extensions
 // -------------------------------------------------------------
-extension Int : TestProtocol{
+extension Int : TestProtocol { // add protocol to type
     var a: Int {
         return 5
     }
@@ -504,7 +572,7 @@ func testGeneric<Item>(a : Item) -> Item {
 testGeneric(a: 4)
 testGeneric(a: "TEST")
 
-// with where generics can have a list of requirements
+// with the "where" clause generics can have a list of requirements
 func anyCommonElements<T: Sequence, U: Sequence>(_ lhs: T, _ rhs: U) -> Bool
     where T.Element: Equatable, T.Element == U.Element
 {
@@ -518,3 +586,8 @@ func anyCommonElements<T: Sequence, U: Sequence>(_ lhs: T, _ rhs: U) -> Bool
     return false
 }
 anyCommonElements([1, 2, 3], [3])
+
+// -------------------------------------------------------------
+// 40) Semicolons
+// -------------------------------------------------------------
+let a0=10; print(a0) // only required for mupltiple commands on single line
