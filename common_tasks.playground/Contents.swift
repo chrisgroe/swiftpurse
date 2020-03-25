@@ -83,3 +83,33 @@ let arr2 : Array<Any> = [
 ]
 let carr2 = arr2 as! Array<Int>
 type(of: carr2)
+
+
+// ----------------------------------------------
+// Working with dates
+// ----------------------------------------------
+var localDateTime = Date()
+
+var dateString = "\(localDateTime)"
+
+
+var dateFormatter = DateFormatter()
+dateFormatter.dateFormat = "yyyy-MM-dd"
+var dateString2 = dateFormatter.string(from:localDateTime)
+
+// comparing dates
+var isMatch = Date() == localDateTime
+
+// ----------------------------------------------
+// Search in array
+// ----------------------------------------------
+
+let z0 = [0,1,2,10,4,5]
+
+let fidx1 = z0.firstIndex(of: 10)
+let fidx2 = z0.firstIndex(where: {$0>=2})
+fidx2
+
+let aidx = z0.allSatisfy {$0>2}
+aidx
+
