@@ -110,6 +110,31 @@ let fidx1 = z0.firstIndex(of: 10)
 let fidx2 = z0.firstIndex(where: {$0>=2})
 fidx2
 
-let aidx = z0.allSatisfy {$0>2}
-aidx
+// ----------------------------------------------
+// flatten array
+// ----------------------------------------------
+let z2 = [
+    [0,1,2],
+    [3,4,5],
+    [6,7,8]
+]
 
+let z3 = z2.flatMap({$0})
+z3
+
+// ----------------------------------------------
+// Sum an array
+// ----------------------------------------------
+let numbers = [1, 12, 2, 9, 27]
+let sum = numbers.reduce(0) { (result, element) -> Int in
+    return result+element
+}
+sum
+
+// ----------------------------------------------
+// Filter an array
+// ----------------------------------------------
+let testData = [-2,0,4,3,-1]
+let filtered = testData.filter { $0 < 0}
+filtered
+type(of:filtered)
