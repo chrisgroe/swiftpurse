@@ -12,11 +12,11 @@ print("A","B","C", separator:"+++")
 // Constants and Variables
 // -------------------------------------------------------------
 let constant = 123
-// error online once --test = 233
 
 var variable = 1234
 variable = 4321
-let constant2 = variable // Constants must not be known at compile time, but you must assign its value only once.
+
+let constant2 = variable // Constants must not be known at compile time, but you can assign their value only once.
 
 let a = 0, b = 0, c = 0 // multiple declarations in one line
 var x = 0, y = 0, z = 0 // multiple declarations in one line
@@ -30,21 +30,27 @@ var implicitDouble2 = 3 + 0.124 // implicit Double
 var explicitDouble:Double = 70 // explicit ... this is called type annotation
 let explicitConstFloat:Float = 4 // explicit ... this is called type annotation
 
-var x0,y0,z0 : Double; // mutiple type annotations in one line
+var x0,y0,z0 : Double // mutiple type annotations in one line
+
+
+// Swift never does implicit conversions
+var str = "Test"
+var implInt = 123
+print(str + String(implInt)) // when conversion is removed --> error
 
 // -------------------------------------------------------------
 // Integers
 // -------------------------------------------------------------
 var int8: Int8 = 10
-Int8.min // mninium bound
-Int8.max // maximum bound
+Int8.min // Int8 minimum bound
+Int8.max // Int8 maximum bound
 
 var uin8: UInt8 = 10
-UInt8.min
-UInt8.max
+UInt8.min // Uint8 minimum bound
+UInt8.max // Uint8 maximum bound
 
-Int.min
-Int.max
+Int.min // Int minimum bound
+Int.max // Int maximum bound
 
 var binary = 0b00100
 var octal = 0o0404
@@ -64,7 +70,7 @@ let hexadecimalDouble = 0xC.3p0
 let justOverOneMillion = 1_000_000.000_000_1
 
 // -------------------------------------------------------------
-// Type Conversions
+// Explicit type conversions
 // -------------------------------------------------------------
 let u8 : UInt8 = 50
 let u16 = UInt16(u8)
@@ -73,12 +79,19 @@ let s8 = String(u8)
 let u16_2 : UInt16 = 100
 let u8_2 = UInt8(u16_2) // only safe for range 0 .. 255
 
+
 // ------------------------------------------------------------
-// Type Alias
+// Type Aliases
 // -------------------------------------------------------------
 typealias TestType = Int
 
 var xyz : TestType  = 10
+
+// define a tuple as alias
+typealias PointTuple = (Int, Int)
+
+var p : PointTuple = (10, 10)
+
 // ------------------------------------------------------------
 // Tuples
 // -------------------------------------------------------------
@@ -91,32 +104,31 @@ tuple.3
 
 // tuples can be named
 let tuple2=(name:"Christian", age:40)
+tuple2.name
+
+// Tuple are value types. When you initialize a variable tuple
+// with another one it will actually create a copy.
+
 
 // -------------------------------------------------------------
-// Swift does no implicit conversions
-// -------------------------------------------------------------
-var str = "Test"
-var implInt = 123
-print(str + String(implInt)) // when conversion is removed --> error
-
-// -------------------------------------------------------------
-// 5) Strings
+// Strings
 // -------------------------------------------------------------
 
 let dollarSign = "\u{24}"        // $,  Unicode scalar U+0024
 let blackHeart = "\u{2665}"      // ♥,  Unicode scalar U+2665
 let sparklingHeart = "\u{1F496}" // 💖, Unicode scalar U+1F496“
 
+// string interpolation
+var name="Christian"
+print("Hello \(name)")
+
 
 var cakes = 13
 var breads = 10
 print("cakes:\(cakes), breads:\(breads), cakes+breads:\(cakes+breads)")
 
+// how to omit string interpolation
 print(#"Write an interpolated string in Swift using \(multiplier)."#)
-
-
-var name="Christian"
-print("Hello \(name)")
 
 var emptyString = ""
 if emptyString.isEmpty {
@@ -136,7 +148,7 @@ welcome.append(exclamationMark)
 welcome.count
 
 // -------------------------------------------------------------
-// 6) Multiple line strings
+// Multiple line strings
 // -------------------------------------------------------------
 print("""
 line 1
@@ -150,99 +162,6 @@ print("""
         line 5
     line 6
     """)
-
-// -------------------------------------------------------------
-// Arrays
-// -------------------------------------------------------------
-var testArray1 = ["ItemA", "Item B", "Item C"]
-var testArray2 = ["ItemA", "Item B", "Item C" , ] // comma after last element is allowed
-
-testArray2[1] = "Replaced"
-testArray2
-
-
-var threeDoubles = Array(repeating: 0.0, count: 3)
-var anotherThreeDoubles = Array(repeating: 2.5, count: 3)
-// anotherThreeDoubles is of type [Double], and equals [2.5, 2.5, 2.5]
-
-var sixDoubles = threeDoubles + anotherThreeDoubles
-// sixDoubles is inferred as [Double], and equals [0.0, 0.0, 0.0, 2.5, 2.5, 2.5]“
-
-
-// -------------------------------------------------------------
-// Sets
-// -------------------------------------------------------------
-let oddDigits: Set = [1, 3, 5, 7, 9]
-let evenDigits: Set = [0, 2, 4, 6, 8]
-let singleDigitPrimeNumbers: Set = [2, 3, 5, 7]
-
-oddDigits.union(evenDigits).sorted()
-// [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-oddDigits.intersection(evenDigits).sorted()
-// []
-oddDigits.subtracting(singleDigitPrimeNumbers).sorted()
-// [1, 9]
-oddDigits.symmetricDifference(singleDigitPrimeNumbers).sorted()
-// [1, 2, 9]“
-
-let houseAnimals: Set = ["🐶", "🐱"]
-let farmAnimals: Set = ["🐮", "🐔", "🐑", "🐶", "🐱"]
-let cityAnimals: Set = ["🐦", "🐭"]
-
-houseAnimals.isSubset(of: farmAnimals)
-// true
-farmAnimals.isSuperset(of: houseAnimals)
-// true
-farmAnimals.isDisjoint(with: cityAnimals)
-// true“
-
-// -------------------------------------------------------------
-// 8) Dictionaries
-// -------------------------------------------------------------
-var testDict = [
-    "key1" : "value 1",
-    "key2" : "value 2", // commat after last element is allowed
-]
-
-testDict.count
-// -------------------------------------------------------------
-// 9) Arrays can automatically grow
-// -------------------------------------------------------------
-var testArray3 = ["Hello"]
-testArray3.append("World")
-testArray3.count
-// -------------------------------------------------------------
-// 10) Create empty array or dictionary
-// -------------------------------------------------------------
-var testArray4 = [String] () // Initializer list
-var testDict2 = [String : String] () // Initializer list
-
-// -------------------------------------------------------------
-// 11) If type conversion can be infered [] can be used for empty array or [:] for empty dict
-// -------------------------------------------------------------
-
-// -------------------------------------------------------------
-// 12) For loops
-// -------------------------------------------------------------
-var items = [1,2,3,4,5]
-for i in items {
-    if i>3 { // must be boolean .. if i {} does not work
-        print(i)
-    } else
-    {
-        print(-i)
-    }
-}
-print("---")
-for i in items[2...] {
-    print(i)
-}
-
-print("---")
-
-for i in items[...2] {
-    print(i)
-}
 
 // -------------------------------------------------------------
 // String index
@@ -270,8 +189,165 @@ welcome2.insert(contentsOf: " there", at: welcome2.index(before: welcome2.endInd
 welcome2.remove(at: welcome2.startIndex)
 welcome2
 
+
 // -------------------------------------------------------------
-// 13) Optionals
+// Arrays
+// -------------------------------------------------------------
+var testArray1 = ["ItemA", "Item B", "Item C"]
+var testArray2 = ["ItemA", "Item B", "Item C" , ] // comma after last element is allowed
+
+testArray2[1] = "Replaced"
+testArray2
+
+// create arrays of specified size
+var threeDoubles = Array(repeating: 0.0, count: 3)
+var anotherThreeDoubles = Array(repeating: 2.5, count: 3)
+
+// anotherThreeDoubles is of type [Double], and equals [2.5, 2.5, 2.5]
+
+// addition of arrays
+var sixDoubles = threeDoubles + anotherThreeDoubles
+// sixDoubles is inferred as [Double], and equals [0.0, 0.0, 0.0, 2.5, 2.5, 2.5]“
+
+
+// -------------------------------------------------------------
+// Sets
+// -------------------------------------------------------------
+let oddDigits: Set = [1, 3, 5, 7, 9]
+let evenDigits: Set = [0, 2, 4, 6, 8]
+let singleDigitPrimeNumbers: Set = [2, 3, 5, 7]
+
+oddDigits.union(evenDigits).sorted()
+// [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+oddDigits.intersection(evenDigits).sorted()
+// []
+oddDigits.subtracting(singleDigitPrimeNumbers).sorted()
+// [1, 9]
+oddDigits.symmetricDifference(singleDigitPrimeNumbers).sorted()
+// [1, 2, 9]“
+
+let houseAnimals: Set = ["A", "B"]
+let farmAnimals: Set = ["C", "D", "E", "A", "B"]
+let cityAnimals: Set = ["F", "G"]
+
+houseAnimals.isSubset(of: farmAnimals)
+// true
+farmAnimals.isSuperset(of: houseAnimals)
+// true
+farmAnimals.isDisjoint(with: cityAnimals)
+// true“
+
+// -------------------------------------------------------------
+// Dictionaries
+// -------------------------------------------------------------
+var testDict = [
+    "key1" : "value 1",
+    "key2" : "value 2", // commat after last element is allowed
+]
+
+testDict.count
+
+// -------------------------------------------------------------
+// Arrays automatically grow when append is used
+// -------------------------------------------------------------
+var testArray = ["Hello"]
+testArray.append("World")
+testArray.count
+
+// -------------------------------------------------------------
+// Create empty array, dictionary, set
+// -------------------------------------------------------------
+var emptyArray = [String] () // Initializer list
+var emptyArray2 = Array<String> () // Initializer list
+
+var emptyDict = [String : String] () // Initializer list
+var emptyDict2 = Dictionary<String, String>()
+var emptySet = Set<String>()
+
+// If type conversion can be infered [] can be used for empty
+// array or [:] for empty dict
+var someInts = [1,2,3]
+someInts = [] // now empty
+type(of:someInts)
+
+var someElements = [1:1, 2:2, 3:3]
+someElements = [:]
+type(of:someElements)
+
+// -------------------------------------------------------------
+// Iterate over array
+// -------------------------------------------------------------
+var items = [1,2,3,4,5]
+for i in items {
+    if i>3 { // must be boolean .. if i {} does not work
+        print(i)
+    } else
+    {
+        print(-i)
+    }
+}
+
+
+// idx 2,3,4
+for i in items[2...] {
+    print(i)
+}
+
+// idx 0,1,2
+for i in items[...2] {
+    print(i)
+}
+
+
+
+// -------------------------------------------------------------
+// Iterate key-value pairs
+// -------------------------------------------------------------
+var dictionary = [
+    "row 1" : [11,12,13,14,15,16],
+    "row 2" : [21,22,23,24,25,26]
+]
+
+for (key, items) in dictionary {
+    print("key \(key) - values \(items)")
+}
+// -------------------------------------------------------------
+// while loops
+// -------------------------------------------------------------
+var i = 5
+while i>0
+{
+    print("while \(i)")
+    i = i - 1
+}
+// -------------------------------------------------------------
+// repeat while loops
+// -------------------------------------------------------------
+i = 5
+repeat
+{
+    print("repeat \(i)")
+    i = i - 1
+} while i>0
+
+// -------------------------------------------------------------
+// For loops with range
+// -------------------------------------------------------------
+
+// closed range
+for i in 0...5 // 0 to 5
+{
+    print("for \(i)")
+}
+
+// half open range
+for i in 0..<5 // 0 to 4
+{
+    print("for \(i)")
+}
+
+// -------------------------------------------------------------
+// Optionals
 // -------------------------------------------------------------
 var optTest:Int? = 30
 print(optTest == nil)
@@ -292,7 +368,7 @@ if let name = optName{
 }
 
 var optName2:String? = "Timo"
-if let name = optName, let name2 = optName2{ // optional binding of multiple values...this aborts when one of them is nil
+if let name = optName, let name2 = optName2 { // optional binding of multiple values...this aborts when one of them is nil
     print("Hello \(name),  \(name2)")
 }
 
@@ -309,7 +385,8 @@ let convertedNumber = Int(possibleNumber)
 type(of:convertedNumber)
 
 // -------------------------------------------------------------
-// Implicitly Unwrapped Optionals - gives right to access optional without special means..assume that it is accessible
+// Implicitly unwrapped optionals
+// gives right to access optional without special means..assume that it is accessible
 // -------------------------------------------------------------
 let possibleString: String? = "An optional string."
 let forcedString: String = possibleString! // requires an exclamation mark
@@ -319,7 +396,7 @@ let implicitString: String = assumedString // no need for an exclamation mark“
 // optional binding also works with implicitly unwrapped optionals
 
 // -------------------------------------------------------------
-// 14) Optional default value
+// Optional default value
 // -------------------------------------------------------------
 var ot1: String? = "hello"
 var ot2: String? = nil
@@ -327,7 +404,7 @@ var ot2: String? = nil
 print("ot1 = \(ot1 ?? "unknown"), ot2 = \(ot2 ?? "unknown")");
 
 // -------------------------------------------------------------
-// 15) Switch case
+// Switch case
 // -------------------------------------------------------------
 let vegetable = "red pepper"
 switch vegetable {
@@ -341,51 +418,9 @@ case let x where x.hasSuffix("pepper"): // TODO: Understand these
 default: // switch must be exhaustive .. therefore default case is required here
     print("Everything tastes good in soup.")
 }
-// -------------------------------------------------------------
-// 16) Iterate key-value pairs
-// -------------------------------------------------------------
-var tdict = [
-    "row 1" : [11,12,13,14,15,16],
-    "row 2" : [21,22,23,24,25,26]
-]
-
-for (key, items) in tdict {
-    print("key \(key) - values \(items)")
-}
-// -------------------------------------------------------------
-// 17) while
-// -------------------------------------------------------------
-var i = 5
-while i>0
-{
-    print("while \(i)")
-    i = i - 1
-}
-// -------------------------------------------------------------
-// 18) repeat while
-// -------------------------------------------------------------
-i = 5
-repeat
-{
-    print("repeat \(i)")
-    i = i - 1
-} while i>0
 
 // -------------------------------------------------------------
-// 19) For loop with index
-// -------------------------------------------------------------
-for i in 0..<5 // 0 to 4
-{
-    print("for \(i)")
-}
-
-for i in 0...5 // 0 to 5
-{
-    print("for \(i)")
-}
-
-// -------------------------------------------------------------
-// 20) Functions
+// Functions
 // -------------------------------------------------------------
 func doubleArg(value : Int) -> Int {
     return value*2
@@ -400,7 +435,7 @@ func doubleArg2(_ value : Int) -> Int {
 doubleArg2(5)
 
 // -------------------------------------------------------------
-// 21) Returns multiple values via tuples
+// Returns multiple values via tuples
 // -------------------------------------------------------------
 func testFunc(value: Int) -> (first: Int, second:Int, third:Int){
     return (value, 2 * value, 3 * value)
@@ -410,8 +445,9 @@ k.first
 k.second
 k.third
 
+
 // -------------------------------------------------------------
-// 22) Functions are first class objects
+// Functions are first class objects
 // -------------------------------------------------------------
 func createIncrementer() -> ((Int)->Int)
 {
@@ -425,7 +461,7 @@ var incr = createIncrementer()
 incr(5)
 
 // -------------------------------------------------------------
-// 23) Functions as arguments
+// Functions as arguments
 // -------------------------------------------------------------
 func funcArg(f : ((Int)->Int)){
     print(f(5))
@@ -436,7 +472,7 @@ func increment(_ value : Int)-> Int {
 funcArg(f:increment)
 
 // -------------------------------------------------------------
-// 24) Closures
+// Closures
 // -------------------------------------------------------------
 
 // Closures and nested function do have access to variables of the scope where they are created
@@ -447,7 +483,7 @@ var closure = { (value:Int) -> Int in // after in the code starts
 print(closure(4))
 
 // -------------------------------------------------------------
-// 25) Single statement closures
+// Single statement closures
 // -------------------------------------------------------------
 // Review: map
 var numbers = [10, 20, 30, 40]
@@ -461,8 +497,12 @@ print(numbers.map({number in 3*number})) // Review: map
 // or even shorter
 print(numbers.map({4*$0}))
 
+// If there are multiple lines of code inside the
+// closure body, then we cannot omit the return statement.
+
+
 // -------------------------------------------------------------
-// 26) Classes
+// Classes
 // -------------------------------------------------------------
 class TestClass {
     var attrib1 = 0
@@ -482,7 +522,7 @@ var testClass = TestClass(attrib1:40)
 testClass.doSomething()
 
 // -------------------------------------------------------------
-// 27) Inheritance
+// Inheritance
 // -------------------------------------------------------------
 class InhTestClass: TestClass {
     override init(attrib1: Int) {
@@ -494,7 +534,7 @@ var inhTestClass = InhTestClass(attrib1 : 10)
 inhTestClass.doSomething()
 
 // -------------------------------------------------------------
-// 28) Setter, Getter, WillSet, DidSet
+// Setter, Getter, WillSet, DidSet
 // -------------------------------------------------------------
 class GetSet {
     var  a : Int {
@@ -517,6 +557,10 @@ class GetSet {
     init() {
         self.b = 0
     }
+    
+    func testMethod() {
+        // do nothing
+    }
 
 }
 
@@ -525,12 +569,14 @@ getSet.a = 10
 getSet.b = 10
 
 // -------------------------------------------------------------
-// 29) nil handling
+// Nil handling
 // -------------------------------------------------------------
-// test?.testMethod() - returns nil if test? Is nil
+
+var testObj : GetSet? = nil
+testObj?.testMethod() // returns nil if test? Is nil
 
 // -------------------------------------------------------------
-// 30) Enumerations.
+// Enumerations.
 // -------------------------------------------------------------
 enum Rank : Int{
     case first = 1
@@ -540,7 +586,7 @@ enum Rank : Int{
 var rank:Rank = Rank.first;
 
 // -------------------------------------------------------------
-// 31) Enums can have methods
+// Enums can have methods and store state
 // -------------------------------------------------------------
 enum Rank2 : Int{
     case first = 1
@@ -563,7 +609,7 @@ var rank2_2 = Rank2.first
 rank2.toString()
 
 // -------------------------------------------------------------
-// 32) Access raw value of enum
+// Access raw value of enum
 // -------------------------------------------------------------
 rank2.rawValue
 var rank3_1 = Rank2(rawValue: 1)
@@ -574,7 +620,7 @@ if let rank3_3 = Rank2(rawValue:2) {
 }
 
 // -------------------------------------------------------------
-// 33) Enum with properties
+// Enum with properties
 // -------------------------------------------------------------
 enum PropEnum {
     case sucess(arg:Int)
@@ -597,17 +643,17 @@ succ.toString()
 fail.toString()
 
 // -------------------------------------------------------------
-// 34) Structs are value types
+// Structs are value types
 // -------------------------------------------------------------
 struct Point {
     var x : Int = 10
     var y : Int = 20
 }
 
-let p = Point(x: 3, y: 2)
+let point = Point(x: 3, y: 2)
 
 // -------------------------------------------------------------
-// 35) Protocols
+// Protocols
 // -------------------------------------------------------------
 protocol TestProtocol {
     var a : Int {get}
@@ -631,7 +677,7 @@ var testProtocoll = testy as TestProtocol // convert to protocol
 var testProtocol2 : TestProtocol = testy // assign protocol
 
 // -------------------------------------------------------------
-// 36) Extensions
+// Extensions
 // -------------------------------------------------------------
 extension Int : TestProtocol { // add protocol to type
     var a: Int {
@@ -649,7 +695,7 @@ num.testMethod()
 10.testMethod()
 
 // -------------------------------------------------------------
-// 37) Error Handling through error Protocol
+// Error Handling through error Protocol
 // -------------------------------------------------------------
 enum CustomError : Error {
     case test1
@@ -677,11 +723,11 @@ do {
     
 }
 
-// single line
+// single line .. returns nil if an error was thrown
 var result = try? testFunc2()
 
 // -------------------------------------------------------------
-// 38) Defer
+// Defer
 // -------------------------------------------------------------
 func testFuncDefer() {
     var a = 10
@@ -692,7 +738,7 @@ func testFuncDefer() {
 }
 
 // -------------------------------------------------------------
-// 39) Generics
+// Generics
 // -------------------------------------------------------------
 func testGeneric<Item>(a : Item) -> Item {
     return a
@@ -716,7 +762,7 @@ func anyCommonElements<T: Sequence, U: Sequence>(_ lhs: T, _ rhs: U) -> Bool
 anyCommonElements([1, 2, 3], [3])
 
 // -------------------------------------------------------------
-// 40) Semicolons
+// Semicolons
 // -------------------------------------------------------------
 let a0=10; print(a0) // only required for mupltiple commands on single line
 
