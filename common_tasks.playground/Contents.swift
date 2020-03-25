@@ -138,3 +138,48 @@ let testData = [-2,0,4,3,-1]
 let filtered = testData.filter { $0 < 0}
 filtered
 type(of:filtered)
+
+// ----------------------------------------------
+// Queries
+// ----------------------------------------------
+let testRows = [
+    ["name": "Christian", "age":40, "gender":"male"],
+    ["name": "Christiane", "age":20, "gender":"female"],
+    ["name": "Manuela", "age":37, "gender":"female"],
+    ["name": "Hans-Peter", "age":60, "gender":"male"]
+]
+
+let females = testRows.filter {(dict) -> Bool in
+    if let gender = dict["gender"] as? String {
+        if gender == "female" {
+            return true
+        }
+    }
+    return false
+    
+}
+females
+
+// ----------------------------------------------
+// References
+// ----------------------------------------------
+class TestClass{
+    var  str0 : String
+    
+    init(_ str0 : String) {
+        self.str0 = str0
+    }
+}
+
+var a0 = TestClass("0")
+var a1 = TestClass("1")
+var a2 = TestClass("2")
+var a3 = TestClass("3")
+
+var ref : TestClass
+
+ref = a1
+ref.str0
+ref.str0 = "XXX"
+
+a1.str0
