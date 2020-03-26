@@ -1,7 +1,7 @@
 import Foundation
 
 enum LinkedListErrors : Error {
-    case OutOfBounds
+    case IndexOutOfRange
 }
 
 public class LinkedList<Element>
@@ -83,8 +83,39 @@ public class LinkedList<Element>
         lastNode?.next = node
     }
     
-    public func remove(_ idx:Int) {
+    public func remove(_ idx:Int) throws {
         
+        assert(idx>=0)
+        if head == nil {
+            throw LinkedListErrors.IndexOutOfRange
+        }
+        
+        // special case ... remove head
+        if idx == 0 {
+            head = head!.next
+            return
+        }
+        
+        let prev_idx = idx  - 1 // get previous item
+        
+        let prev_node = getNodeByIndex(idx: prev_idx)
+        
+        if prev_node == nil {
+            throw LinkedListErrors.IndexOutOfRange
+        }
+        
+        let node = prev_node!.next
+        
+        assert(node != nil)
+        
+        // special case ... last node
+        if node!.next == nil {
+            prev_node!.next = nil;
+            return
+        }
+         
+        // replace connection
+        prev_node!.next = node!.next
     }
     
     public func printList() {
