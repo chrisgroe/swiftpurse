@@ -78,13 +78,11 @@ class LinkedListTests: XCTestCase {
         XCTAssertEqual(ll.count, 0)
     }
     
-    
     func testCount3Elements() {
         let ll = LinkedList<Int>()
         ll.append(2)
         ll.append(3)
         ll.append(1)
-        
         XCTAssertEqual(ll.count, 3)
     }
     
@@ -108,7 +106,7 @@ class LinkedListTests: XCTestCase {
         XCTAssertEqual(ll.distance(from: 0, to: 2), 2)
     }
     
-    func testMutating() {
+    func testSubscriptMutating() {
         let ll = LinkedList<Int>()
         ll.append(2)
         ll.append(3)
@@ -119,7 +117,7 @@ class LinkedListTests: XCTestCase {
         XCTAssertEqual(ll[2], 4)
     }
     
-    func testSorting() {
+    func testSorted() {
         let ll = LinkedList<Int>()
         ll.append(2)
         ll.append(3)
@@ -136,7 +134,24 @@ class LinkedListTests: XCTestCase {
         
     }
     
-    func testRemoving() {
+    func testRemoveStart() {
+        let ll = LinkedList<Int>()
+        ll.append(2)
+        ll.append(3)
+        ll.append(1)
+        ll.append(-2)
+        ll.append(-10)
+        
+        let removedElement = ll.remove(at:0)
+        XCTAssertEqual(removedElement, 2)
+        XCTAssertEqual(ll[0], 3)
+        XCTAssertEqual(ll[1], 1)
+        XCTAssertEqual(ll[2], -2)
+        XCTAssertEqual(ll[3], -10)
+        
+    }
+    
+    func testRemoveMid() {
         let ll = LinkedList<Int>()
         ll.append(2)
         ll.append(3)
@@ -152,6 +167,23 @@ class LinkedListTests: XCTestCase {
         XCTAssertEqual(ll[3], -10)
         
     }
+    
+    func testRemoveEnd() {
+        let ll = LinkedList<Int>()
+        ll.append(2)
+        ll.append(3)
+        ll.append(1)
+        ll.append(-2)
+        ll.append(-10)
+
+        let removedElement = ll.remove(at:ll.endIndex-1)
+        XCTAssertEqual(removedElement, -10)
+        XCTAssertEqual(ll[0], 2)
+        XCTAssertEqual(ll[1], 3)
+        XCTAssertEqual(ll[2], 1)
+        XCTAssertEqual(ll[3], -2)
+       }
+       
     
     
 

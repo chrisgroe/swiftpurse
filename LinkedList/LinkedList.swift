@@ -87,12 +87,12 @@ public class LinkedList<Element>
         }
     }
     
-    public func remove(at index:Int) -> Element{
-        
+    @discardableResult public func remove(at index:Int) -> Element
+    {
+        assert(startIndex != endIndex) // collection not empty
         assert(index>=startIndex)
         assert(index<endIndex)
 
-        
         // special case ... move head
         if index == 0 {
             let oldhead = head
@@ -114,32 +114,13 @@ public class LinkedList<Element>
             endIndex -= 1
             prev_node!.next = nil;
             return node!.data
-        } else {
-            // replace connection
-            prev_node!.next = node!.next
-            endIndex -= 1
-            return node!.data
         }
-    }
-    
-    public func printList() {
-        if head == nil {
-            return
-        }
-    
-        var currentNode = head
-        print(currentNode!.data)
         
-        while (currentNode!.next != nil) {
-            currentNode = currentNode!.next
-            
-            if currentNode != nil {
-                print(currentNode!.data)
-            }
-        }
-    
-    }
-    
+        // replace connection
+        prev_node!.next = node!.next
+        endIndex -= 1
+        return node!.data
+    }   
 }
 
 extension LinkedList : Sequence

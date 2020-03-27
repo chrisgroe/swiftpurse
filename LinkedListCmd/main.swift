@@ -15,23 +15,31 @@ ll.append("TEST2")
 ll.append("TEST3")
 ll.append("TEST4")
  
+
+print("---")
 for item in ll {
     print(item)
 }
 print("---")
-ll.printList()
-print("---")
 print(ll[2])
 print("---")
-try? ll.remove(2)
-ll.printList()
+ll.remove(at:2)
+for item in ll {
+    print(item)
+}
 print("---")
-try? ll.remove(0)
-ll.printList()
+ll.remove(at:0)
+for item in ll {
+    print(item)
+}
 print("---")
-try? ll.remove(1)
-ll.printList()
+ll.remove(at:1)
+for item in ll {
+    print(item)
+}
 print("---")
-try? ll.remove(0)
-ll.printList()
+ll.remove(at:0)
+for item in ll {
+    print(item)
+}
 print("---")
