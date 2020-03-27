@@ -224,7 +224,7 @@ oddDigits.intersection(evenDigits).sorted()
 oddDigits.subtracting(singleDigitPrimeNumbers).sorted()
 // [1, 9]
 oddDigits.symmetricDifference(singleDigitPrimeNumbers).sorted()
-// [1, 2, 9]“
+// [1, 2, 9]
 
 let houseAnimals: Set = ["A", "B"]
 let farmAnimals: Set = ["C", "D", "E", "A", "B"]
@@ -293,12 +293,14 @@ for i in items[2...] {
     print(i)
 }
 
+type(of:2...)
+
 // idx 0,1,2
 for i in items[...2] {
     print(i)
 }
 
-
+type(of:...2)
 
 // -------------------------------------------------------------
 // Iterate key-value pairs
@@ -340,12 +342,13 @@ for i in 0...5 // 0 to 5
     print("for \(i)")
 }
 
+type(of: 0...5)
 // half open range
 for i in 0..<5 // 0 to 4
 {
     print("for \(i)")
 }
-
+type(of: 0..<5)
 // -------------------------------------------------------------
 // Optionals
 // -------------------------------------------------------------
