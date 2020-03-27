@@ -21,7 +21,7 @@ for item in ll {
 print("---")
 ll.printList()
 print("---")
-print(ll[2]!)
+print(ll[2])
 print("---")
 try? ll.remove(2)
 ll.printList()

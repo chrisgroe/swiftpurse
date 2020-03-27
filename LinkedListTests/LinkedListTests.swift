@@ -24,10 +24,10 @@ class LinkedListTests: XCTestCase {
         let it = ll.makeIterator()
         
         let value0 = it.next()
-        XCTAssert(value0 == nil)
+        XCTAssertNil(value0)
         
         let value1 = it.next()
-        XCTAssert(value1 == nil)
+        XCTAssertNil(value1)
     }
 
     func testIterator1Elements() {
@@ -36,10 +36,10 @@ class LinkedListTests: XCTestCase {
         let it = ll.makeIterator()
         
         let value0 = it.next()
-        XCTAssert(value0! == "1 - Test String - 1")
+        XCTAssertEqual(value0, "1 - Test String - 1")
         
         let value1 = it.next()
-        XCTAssert(value1 == nil)
+        XCTAssertNil(value1)
     }
     
     func testIterator2Elements() {
@@ -49,15 +49,75 @@ class LinkedListTests: XCTestCase {
         let it = ll.makeIterator()
         
         let value0 = it.next()
-        XCTAssert(value0! == "1 - Test String - 1")
+        XCTAssertEqual(value0,"1 - Test String - 1")
         
         let value1 = it.next()
-        XCTAssert(value1 == "2 - Test String - 2")
+        XCTAssertEqual(value1, "2 - Test String - 2")
         
         let value2 = it.next()
-        XCTAssert(value2 == nil)
+        XCTAssertNil(value2)
     }
     
+    
+    func testGetNodeByIndexOutOfBonds() {
+        let ll = LinkedList<Int>()
+        ll.append(2) //0
+        ll.append(3)
+        ll.append(1) //2
+        XCTAssertNil(ll.node(at: 3))
+    }
+    
+    func testGetNodeByIndexEmpty() {
+        let ll = LinkedList<Int>()
+        XCTAssertNil(ll.node(at: 0))
+        XCTAssertNil(ll.node(at: 1))
+    }
+    
+    func testCount0Elements() {
+        let ll = LinkedList<Int>()
+        XCTAssertEqual(ll.count, 0)
+    }
+    
+    
+    func testCount3Elements() {
+        let ll = LinkedList<Int>()
+        ll.append(2)
+        ll.append(3)
+        ll.append(1)
+        
+        XCTAssertEqual(ll.count, 3)
+    }
+    
+    func testFirstIndexOf() {
+        let ll = LinkedList<Int>()
+        ll.append(2)
+        ll.append(3)
+        ll.append(-3)
+        ll.append(1)
+        
+        XCTAssertEqual(ll.firstIndex(of: -3), 2)
+    }
+    
+    func testDistance() {
+        let ll = LinkedList<Int>()
+        ll.append(2)
+        ll.append(3)
+        ll.append(-3)
+        ll.append(1)
+        
+        XCTAssertEqual(ll.distance(from: 0, to: 2), 2)
+    }
+    
+    func testMutating() {
+        let ll = LinkedList<Int>()
+        ll.append(2)
+        ll.append(3)
+        ll.append(-3)
+        ll.append(1)
+        XCTAssertEqual(ll[2], -3)
+        ll[2] = 4
+        XCTAssertEqual(ll[2], 4)
+    }
     
     func testSorting() {
         let ll = LinkedList<Int>()
@@ -68,11 +128,28 @@ class LinkedListTests: XCTestCase {
         ll.append(-10)
         
         let sortedArray = ll.sorted()
-        XCTAssert(sortedArray[0] == -10)
-        XCTAssert(sortedArray[1] == -2)
-        XCTAssert(sortedArray[2] == 1)
-        XCTAssert(sortedArray[3] == 2)
-        XCTAssert(sortedArray[4] == 3)
+        XCTAssertEqual(sortedArray[0], -10)
+        XCTAssertEqual(sortedArray[1], -2)
+        XCTAssertEqual(sortedArray[2], 1)
+        XCTAssertEqual(sortedArray[3], 2)
+        XCTAssertEqual(sortedArray[4], 3)
+        
+    }
+    
+    func testRemoving() {
+        let ll = LinkedList<Int>()
+        ll.append(2)
+        ll.append(3)
+        ll.append(1)
+        ll.append(-2)
+        ll.append(-10)
+        
+        let removedElement = ll.remove(at:2)
+        XCTAssertEqual(removedElement, 1)
+        XCTAssertEqual(ll[0], 2)
+        XCTAssertEqual(ll[1], 3)
+        XCTAssertEqual(ll[2], -2)
+        XCTAssertEqual(ll[3], -10)
         
     }
     

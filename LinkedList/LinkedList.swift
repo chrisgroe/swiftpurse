@@ -5,10 +5,12 @@ enum LinkedListErrors : Error {
 }
 
 
+
 public class LinkedList<Element>
 {
-   
-    internal class Node {
+    public typealias Index = Int
+    
+    class Node {
         var data : Element
         var next : Node?
         
@@ -20,28 +22,36 @@ public class LinkedList<Element>
     
     var head : Node?
     
+    public var startIndex : Index
+    public var endIndex : Index
+    
     public init() {
+        startIndex = 0
+        endIndex = 0
+    }
+
+    
+    var tail : Node? {
+        get {
+            if head == nil {
+                return nil
+            }
+            
+            var currentNode = head
+            while (currentNode!.next != nil) {
+                currentNode = currentNode!.next
+            }
+            return currentNode
+        }
     }
     
-    func getTail() -> Node? {
+    func node(at index: Int) -> Node?{
         if head == nil {
             return nil
         }
+        assert(index>=0)
         
-        var currentNode = head
-        while (currentNode!.next != nil) {
-            currentNode = currentNode!.next
-        }
-        return currentNode
-    }
-    
-    func getNodeByIndex(idx: Int) -> Node?{
-        if head == nil {
-            return nil
-        }
-        assert(idx>=0)
-        
-        if (idx == 0)
+        if (index == 0)
         {
             return head
         }
@@ -54,7 +64,7 @@ public class LinkedList<Element>
             if currentNode != nil {
                 currentIdx+=1
                 
-                if idx==currentIdx {
+                if index==currentIdx {
                     return currentNode
                 }
             }
@@ -64,47 +74,36 @@ public class LinkedList<Element>
         return nil
     } 
     
-    public subscript(index:Int)  ->  Element? {
-        if let node = getNodeByIndex(idx: index)
-        {
-            return node.data
-        }
-        return nil
-    }
-    
     public func append(_ element: Element) {
         // pack in Node
         let node = Node(data: element)
         
+        endIndex += 1
         if head == nil {
             head = node
-            return
+        } else {
+            let lastNode = tail
+            lastNode?.next = node
         }
-        
-        let lastNode = getTail()
-        lastNode?.next = node
     }
     
-    public func remove(_ idx:Int) throws {
+    public func remove(at index:Int) -> Element{
         
-        assert(idx>=0)
-        if head == nil {
-            throw LinkedListErrors.IndexOutOfRange
-        }
+        assert(index>=startIndex)
+        assert(index<endIndex)
+
         
-        // special case ... remove head
-        if idx == 0 {
+        // special case ... move head
+        if index == 0 {
+            let oldhead = head
             head = head!.next
-            return
+            endIndex -= 1
+            return oldhead!.data
         }
         
-        let prev_idx = idx  - 1 // get previous item
+        let prev_idx = index  - 1 // get previous item
+        let prev_node = node(at: prev_idx)
         
-        let prev_node = getNodeByIndex(idx: prev_idx)
-        
-        if prev_node == nil {
-            throw LinkedListErrors.IndexOutOfRange
-        }
         
         let node = prev_node!.next
         
@@ -112,12 +111,15 @@ public class LinkedList<Element>
         
         // special case ... last node
         if node!.next == nil {
+            endIndex -= 1
             prev_node!.next = nil;
-            return
+            return node!.data
+        } else {
+            // replace connection
+            prev_node!.next = node!.next
+            endIndex -= 1
+            return node!.data
         }
-         
-        // replace connection
-        prev_node!.next = node!.next
     }
     
     public func printList() {
@@ -149,9 +151,9 @@ extension LinkedList : Sequence
         var head : Node?
         var current : Node?
         
-        internal init(head : Node?) {
-            self.head = head
-            current = head
+        internal init(start : Node?, end: Node?) {
+            self.head = start
+            current = start
         }
         public func next() -> Element? {
             if current == nil {
@@ -169,9 +171,47 @@ extension LinkedList : Sequence
     }
     
     public func makeIterator()->LinkedListIterator {
-        return LinkedListIterator(head: head)
+        return LinkedListIterator(start: head, end:tail)
     }
     
     
 }
+extension LinkedList : MutableCollection
+{
+    public func index(after i: Int) -> Int {
+        return i+1
+    }
+    
+    public subscript(position: Int) -> Element {
+        
+        set {
+            let node_at = node(at: position)
+            node_at!.data = newValue
+        }
+        get {
+            return node(at: position)!.data
+        }
+    }
+}
 
+/*
+extension LinkedList {
+    
+    public class LinkedListSlice {
+        var startIndex : Index
+        var endIndex : Index
+        
+        init(startIndex : Index, endIndex:Index) {
+            self.startIndex = startIndex
+            self.endIndex = endIndex
+        }
+        
+
+        
+    }
+    
+    public func prefix(through: Index ) -> LinkedListSlice {
+        return LinkedListSlice(startIndex: 0, endIndex: through)
+    }
+    
+}*/
