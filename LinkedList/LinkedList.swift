@@ -4,9 +4,11 @@ enum LinkedListErrors : Error {
     case IndexOutOfRange
 }
 
+
 public class LinkedList<Element>
 {
-    class Node {
+   
+    internal class Node {
         var data : Element
         var next : Node?
         
@@ -137,3 +139,39 @@ public class LinkedList<Element>
     }
     
 }
+
+extension LinkedList : Sequence
+{
+    public typealias Iterator = LinkedListIterator
+    
+    public class LinkedListIterator : IteratorProtocol
+    {
+        var head : Node?
+        var current : Node?
+        
+        internal init(head : Node?) {
+            self.head = head
+            current = head
+        }
+        public func next() -> Element? {
+            if current == nil {
+                return nil
+            }
+            
+            if current === head {
+                head = nil
+                return current?.data
+            }
+            
+            current = current?.next
+            return current?.data
+        }
+    }
+    
+    public func makeIterator()->LinkedListIterator {
+        return LinkedListIterator(head: head)
+    }
+    
+    
+}
+

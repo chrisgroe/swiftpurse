@@ -15,6 +15,10 @@ ll.append("TEST2")
 ll.append("TEST3")
 ll.append("TEST4")
  
+for item in ll {
+    print(item)
+}
+print("---")
 ll.printList()
 print("---")
 print(ll[2]!)
