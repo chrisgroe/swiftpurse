@@ -43,7 +43,7 @@
 		08BD7C88242C82CC00FE4346 = {
 			isa = PBXGroup;
 			children = (
-				08BD7C93242C82CC00FE4346 /* LinkedList */,
+				08BD7C93242C82CC00FE4346 /* LinkedListCmd */,
 				08BD7C92242C82CC00FE4346 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -56,13 +56,13 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		08BD7C93242C82CC00FE4346 /* LinkedList */ = {
+		08BD7C93242C82CC00FE4346 /* LinkedListCmd */ = {
 			isa = PBXGroup;
 			children = (
 				08BD7C9B242C832400FE4346 /* LinkedList.swift */,
 				08BD7C94242C82CC00FE4346 /* main.swift */,
 			);
-			path = LinkedList;
+			path = LinkedListCmd;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
