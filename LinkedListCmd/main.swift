@@ -7,13 +7,14 @@
 //
 
 import Foundation
+import LinkedList
 
 var ll = LinkedList<String>()
 ll.append("TEST1")
 ll.append("TEST2")
 ll.append("TEST3")
 ll.append("TEST4")
-
+ 
 ll.printList()
 print("---")
 print(ll[2]!)

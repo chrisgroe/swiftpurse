@@ -60,9 +60,9 @@ public class LinkedList<Element>
         }
         
         return nil
-    }
+    } 
     
-    subscript(index:Int)  ->  Element? {
+    public subscript(index:Int)  ->  Element? {
         if let node = getNodeByIndex(idx: index)
         {
             return node.data
