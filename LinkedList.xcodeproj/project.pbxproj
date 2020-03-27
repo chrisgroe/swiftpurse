@@ -24,7 +24,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		08BD7C91242C82CC00FE4346 /* LinkedList */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = LinkedList; sourceTree = BUILT_PRODUCTS_DIR; };
+		08BD7C91242C82CC00FE4346 /* LinkedListCmd */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = LinkedListCmd; sourceTree = BUILT_PRODUCTS_DIR; };
 		08BD7C94242C82CC00FE4346 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		08BD7C9B242C832400FE4346 /* LinkedList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkedList.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -51,7 +51,7 @@
 		08BD7C92242C82CC00FE4346 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				08BD7C91242C82CC00FE4346 /* LinkedList */,
+				08BD7C91242C82CC00FE4346 /* LinkedListCmd */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -68,9 +68,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		08BD7C90242C82CC00FE4346 /* LinkedList */ = {
+		08BD7C90242C82CC00FE4346 /* LinkedListCmd */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 08BD7C98242C82CC00FE4346 /* Build configuration list for PBXNativeTarget "LinkedList" */;
+			buildConfigurationList = 08BD7C98242C82CC00FE4346 /* Build configuration list for PBXNativeTarget "LinkedListCmd" */;
 			buildPhases = (
 				08BD7C8D242C82CC00FE4346 /* Sources */,
 				08BD7C8E242C82CC00FE4346 /* Frameworks */,
@@ -80,9 +80,9 @@
 			);
 			dependencies = (
 			);
-			name = LinkedList;
+			name = LinkedListCmd;
 			productName = LinkedList;
-			productReference = 08BD7C91242C82CC00FE4346 /* LinkedList */;
+			productReference = 08BD7C91242C82CC00FE4346 /* LinkedListCmd */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -113,7 +113,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				08BD7C90242C82CC00FE4346 /* LinkedList */,
+				08BD7C90242C82CC00FE4346 /* LinkedListCmd */,
 			);
 		};
 /* End PBXProject section */
@@ -278,7 +278,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		08BD7C98242C82CC00FE4346 /* Build configuration list for PBXNativeTarget "LinkedList" */ = {
+		08BD7C98242C82CC00FE4346 /* Build configuration list for PBXNativeTarget "LinkedListCmd" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				08BD7C99242C82CC00FE4346 /* Debug */,
