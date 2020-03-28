@@ -45,7 +45,7 @@ public class LinkedList<Element>
     /// The first element of the LinkedList.
     ///
     /// Is nil when the LinkedList  is empty.
-    var first : Element? {
+    public var first : Element? {
         head?.data
     }
 
@@ -70,7 +70,7 @@ public class LinkedList<Element>
     /// The last element of the LinkedList.
     ///
     /// Is nil  the LinkedList is empty.
-    var last : Element? {
+    public var last : Element? {
         tail?.data
     }
     
@@ -90,33 +90,45 @@ public class LinkedList<Element>
                 return head
             }
             
-            var next_node = next(head)
-            var currentIdx = 1
+            var nextNode = next(head)
+            var currIndex = 1
             
-            while (next_node != nil) {
-                if index==currentIdx {
-                    return next_node
+            while (nextNode != nil) {
+                if index==currIndex {
+                    return nextNode
                 }
-                next_node = next(next_node)
-                currentIdx+=1
+                nextNode = next(nextNode)
+                currIndex+=1
             }
         }
         return nil
     } 
     
+    /// Adds a new element at the start of the LinkedList.
+    /// - Parameters:
+    ///     - newElement: The element to append to the LinkedList.
+    public func prepend(_ newElement: Element) {
+        // pack Element in Node
+        let node = Node(data: newElement)
+        
+        endIndex += 1
+        node.next = head
+        head = node
+    }
+    
     /// Adds a new element at the end of the LinkedList.
     /// - Parameters:
     ///     - newElement: The element to append to the LinkedList.
     public func append(_ newElement: Element) {
-        // pack in Node
+        // pack Element in Node
         let node = Node(data: newElement)
         
         endIndex += 1
         if head == nil {
             head = node
         } else {
-            let lastNode = tail
-            lastNode?.next = node
+            let tailNode = tail
+            tailNode!.next = node
         }
     }
     
@@ -128,7 +140,6 @@ public class LinkedList<Element>
         
         assert(index>=startIndex)
         
-        
         // insert at start when collection is empty
         if count == 0 && index == startIndex {
             append(newElement)
@@ -137,13 +148,12 @@ public class LinkedList<Element>
         
         assert(count>0) // collection not empty
         
-        let new_node = Node(data: newElement)
-        
+        let newNode = Node(data: newElement)
         
         // special case ... move head
         if index == 0 {
             let oldhead = head
-            head = new_node
+            head = newNode
             head!.next = oldhead
             endIndex += 1
             return
@@ -151,25 +161,23 @@ public class LinkedList<Element>
         
         assert(index < (endIndex + 1))
         
-        let prev_idx = index  - 1 // get previous item index
-        let prev_node = node(at: prev_idx)
+        let prevNode = node(at: index  - 1)
         
-        assert(prev_node != nil)
+        assert(prevNode != nil)
         
         // insert at end
         if index==endIndex {
-            
-            prev_node?.next = new_node
+            prevNode?.next = newNode
             endIndex += 1
         } else {
             assert(index<endIndex)
             
-            let node = next(prev_node)
+            let node = next(prevNode)
             
             assert(node != nil)
             
-            prev_node?.next = new_node
-            new_node.next = node
+            prevNode?.next = newNode
+            newNode.next = node
             endIndex += 1
         }
         
@@ -187,28 +195,21 @@ public class LinkedList<Element>
         // special case ... move head
         if index == 0 {
             let oldhead = head
-            head = head!.next
+            head = next(head)
             endIndex -= 1
             return oldhead!.data
         }
         
-        let prev_idx = index  - 1 // get previous item
-        let prev_node = node(at: prev_idx)
-        let node = next(prev_node)
+        let prev = node(at: index  - 1)
+        let node = next(prev)
         
-        assert(prev_node != nil)
+        assert(prev != nil)
         assert(node != nil)
         
-        // special case ... last node
-        if node!.next == nil {
-            prev_node!.next = nil;
-        }
-        else
-        {
-            // replace connection
-            prev_node!.next = node!.next
-        }
+        // replace connection
+        prev?.next = node?.next // node?.next can be nil
         endIndex -= 1
+        
         return node!.data
     }   
 }
@@ -259,8 +260,8 @@ extension LinkedList : MutableCollection
     public subscript(position: Int) -> Element {
         
         set {
-            let node_at = node(at: position)
-            node_at!.data = newValue
+            let nodeAtPos = node(at: position)
+            nodeAtPos!.data = newValue
         }
         get {
             node(at: position)!.data

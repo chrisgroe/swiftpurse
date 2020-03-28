@@ -311,14 +311,6 @@ class LinkedListTests: XCTestCase {
         XCTAssertEqual(ll.count,10)
         XCTAssertEqual(Array<Int>(ll), Array<Int>(1...10))
     }
-    func testAppendPerformance100Elements() {
-        let ll = LinkedList<Int>()
-        measure {
-            for _ in 0..<100 {
-                ll.append(2)
-            }
-        }
-    }
     
     func testCustomStringConvertible0Elements() {
         let ll = LinkedList<Int>()
@@ -332,6 +324,34 @@ class LinkedListTests: XCTestCase {
     func testCustomStringConvertible2Elements() {
         let ll = LinkedList<Int>([0,1])
         XCTAssertEqual(ll.description, "[0, 1]")
+    }
+    
+    func testPrepend3Elements() {
+        let ll = LinkedList<Int>()
+        ll.prepend(10)
+        ll.prepend(20)
+        ll.prepend(30)
+
+        XCTAssertEqual(Array<Int>(ll), [30,20,10])
+    }
+    
+    
+    func testAppendPerformance100Elements() {
+        let ll = LinkedList<Int>()
+        measure {
+            for _ in 0..<100 {
+                ll.append(2)
+            }
+        }
+    }
+    
+    func testPrependPerformance100Elements() {
+        let ll = LinkedList<Int>()
+        measure {
+            for _ in 0..<1000 {
+                ll.prepend(2)
+            }
+        }
     }
 
 }
