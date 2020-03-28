@@ -29,6 +29,32 @@ public class LinkedList<Element>
         startIndex = 0
         endIndex = 0
     }
+    
+    public init<S>(_ s: S) where Element == S.Element, S : Sequence {
+        startIndex = 0
+        endIndex = 0
+        
+        // exhaust sequence
+        for i in s {
+            append(i)
+        }
+    }
+    
+    
+    
+    public init(repeating repeatedValue: Element, count: Int) {
+        startIndex = 0
+        endIndex = 0
+        
+        for _ in 0..<count {
+            append(repeatedValue)
+        }
+        
+    }
+    
+    var first : Element? {
+        head?.data
+    }
 
     
     var tail : Node? {
@@ -45,21 +71,12 @@ public class LinkedList<Element>
         }
     }
     
-    func next(_ node : Node?) -> Node? {
-        node?.next
+    var last : Element? {
+        tail?.data
     }
     
-    func prev(_ node : Node?) -> Node? {
-        var nextNode = next(head)
-        
-        while (nextNode != nil) {
-            if nextNode === node {
-                return node
-            }
-            
-            nextNode = next(nextNode)
-        }
-        return nil
+    func next(_ node : Node?) -> Node? {
+        node?.next
     }
     
     func node(at index: Int) -> Node? {
@@ -148,6 +165,7 @@ public class LinkedList<Element>
             new_node.next = node
             endIndex += 1
         }
+        
     }
     
     @discardableResult public func remove(at index:Int) -> Element {
@@ -184,6 +202,8 @@ public class LinkedList<Element>
     }   
 }
 
+// MARK: Sequence
+
 extension LinkedList : Sequence
 {
     public typealias Iterator = LinkedListIterator
@@ -218,6 +238,9 @@ extension LinkedList : Sequence
     
     
 }
+
+// MARK: MutableCollection
+
 extension LinkedList : MutableCollection
 {
     public func index(after i: Int) -> Int {
@@ -235,6 +258,39 @@ extension LinkedList : MutableCollection
         }
     }
 }
+
+// MARK: Operators
+extension LinkedList {
+    
+    public static func + (lhs: LinkedList<Element>, rhs: LinkedList<Element>) -> LinkedList<Element>  {
+        let new_ll = LinkedList<Element>(lhs) // create new linked list based on lhs
+        for i in rhs {
+            new_ll.append(i) // append elements from rhs
+        }
+        return new_ll
+    }
+    
+    public static func + <Other>(lhs: Other, rhs: LinkedList<Element>) -> LinkedList<Element> where Other : Sequence, Element == Other.Element
+    {
+        let new_ll = LinkedList<Element>(lhs) // create new linked list based on lhs
+        for i in rhs {
+            new_ll.append(i) // append elements from rhs
+        }
+        return new_ll
+        
+    }
+    
+    public static func + <Other>(lhs: LinkedList<Element>, rhs:Other ) -> LinkedList<Element> where Other : Sequence, Element == Other.Element
+    {
+        let new_ll = LinkedList<Element>(lhs) // create new linked list based on lhs
+        for i in rhs {
+            new_ll.append(i) // append elements from rhs
+        }
+        return new_ll
+        
+    }
+}
+
 
 /*
 extension LinkedList {

@@ -18,7 +18,65 @@ class LinkedListTests: XCTestCase {
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
+    
+    func testInitBySequence() {
+        let ll = LinkedList<Int>([1,2,3,4])
+        
+        XCTAssertEqual(ll.count,4)
+        XCTAssertEqual(Array<Int>(ll), [1,2,3,4])
+    }
+    
+    func testInitByRange() {
+        let ll = LinkedList<Int>(1...4)
+        
+        XCTAssertEqual(ll.count,4)
+        XCTAssertEqual(Array<Int>(ll), [1,2,3,4])
+    }
+    
+    func testInitRepeating() {
+           let ll = LinkedList<Int>(repeating: 123, count: 4)
+           
+           XCTAssertEqual(ll.count,4)
+           XCTAssertEqual(Array<Int>(ll), [123,123,123,123])
+       }
 
+    func testFirst0Elements() {
+        let ll = LinkedList<String>()
+        
+        XCTAssertNil(ll.first)
+    }
+    
+    func testLast0Elements() {
+        let ll = LinkedList<String>()
+        
+        XCTAssertNil(ll.last)
+    }
+    
+    func testFirst1Elements() {
+        let ll = LinkedList<Int>()
+        ll.append(123)
+        XCTAssertEqual(ll.first,123)
+    }
+    
+    func testLast1Elements() {
+        let ll = LinkedList<Int>()
+        ll.append(123)
+        XCTAssertEqual(ll.last,123)
+    }
+    
+    func testFirst2Elements() {
+        let ll = LinkedList<Int>()
+        ll.append(123)
+        ll.append(321)
+        XCTAssertEqual(ll.first,123)
+    }
+    
+    func testLast2Elements() {
+        let ll = LinkedList<Int>()
+        ll.append(123)
+        ll.append(321)
+        XCTAssertEqual(ll.last,321)
+    }
     
     
     func testIterator0Elements() {
@@ -222,8 +280,37 @@ class LinkedListTests: XCTestCase {
         XCTAssertEqual(ll[1], 3)
         XCTAssertEqual(ll[2], 1)
         XCTAssertEqual(ll[3], -2)
-       }
+    }
+    
+    func testConcat2LinkedLists() {
+        let ll1 = LinkedList<Int>(1...5)
+        let ll2 = LinkedList<Int>(6...10)
+        
+        let ll = ll1 + ll2
+        
+        XCTAssertEqual(ll.count,10)
+        XCTAssertEqual(Array<Int>(ll), Array<Int>(1...10))
+    }
+    
+    func testConcatSequenceAndLinkedList() {
+        let ll1 = 1...5
+        let ll2 = LinkedList<Int>(6...10)
+        
+        let ll = ll1 + ll2
+        
+        XCTAssertEqual(ll.count,10)
+        XCTAssertEqual(Array<Int>(ll), Array<Int>(1...10))
+    }
        
+    func testConcatLinkedListAndSequence() {
+        let ll1 = LinkedList<Int>(1...5)
+        let ll2 = 6...10
+        
+        let ll = ll1 + ll2
+        
+        XCTAssertEqual(ll.count,10)
+        XCTAssertEqual(Array<Int>(ll), Array<Int>(1...10))
+    }
     func testAppendPerformance100Elements() {
         let ll = LinkedList<Int>()
         measure {
