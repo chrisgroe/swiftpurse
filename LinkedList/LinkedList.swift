@@ -221,7 +221,7 @@ extension LinkedList : Sequence
 extension LinkedList : MutableCollection
 {
     public func index(after i: Int) -> Int {
-        return i+1
+        i+1
     }
     
     public subscript(position: Int) -> Element {
@@ -231,7 +231,7 @@ extension LinkedList : MutableCollection
             node_at!.data = newValue
         }
         get {
-            return node(at: position)!.data
+            node(at: position)!.data
         }
     }
 }
