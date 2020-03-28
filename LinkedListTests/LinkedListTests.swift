@@ -19,6 +19,8 @@ class LinkedListTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
+    
+    
     func testIterator0Elements() {
         let ll = LinkedList<String>()
         let it = ll.makeIterator()
@@ -134,6 +136,44 @@ class LinkedListTests: XCTestCase {
         
     }
     
+    func testInsertEmpty() {
+        let ll = LinkedList<Int>()
+        ll.insert(10, at: 0)
+        XCTAssertEqual(ll.count, 1)
+        XCTAssertEqual(ll[0], 10)
+    }
+    
+    func testInsertAtStart() {
+        let ll = LinkedList<Int>()
+        ll.append(11)
+        ll.insert(10, at: 0)
+        XCTAssertEqual(ll.count, 2)
+        XCTAssertEqual(ll[0], 10)
+        XCTAssertEqual(ll[1], 11)
+    }
+    
+    func testInsertAtMid() {
+        let ll = LinkedList<Int>()
+        ll.append(11) // 0
+        ll.append(12) // 1
+        ll.append(13) // 2
+        ll.insert(10, at: 1)
+        XCTAssertEqual(ll.count, 4)
+        XCTAssertEqual(ll[0], 11)
+        XCTAssertEqual(ll[1], 10)
+        XCTAssertEqual(ll[2], 12)
+        XCTAssertEqual(ll[3], 13)
+    }
+    
+    func testInsertAtEnd() {
+        let ll = LinkedList<Int>()
+        ll.append(11)
+        ll.insert(10, at: 1)
+        XCTAssertEqual(ll.count, 2)
+        XCTAssertEqual(ll[0], 11)
+        XCTAssertEqual(ll[1], 10)
+    }
+    
     func testRemoveStart() {
         let ll = LinkedList<Int>()
         ll.append(2)
@@ -184,7 +224,16 @@ class LinkedListTests: XCTestCase {
         XCTAssertEqual(ll[3], -2)
        }
        
-    
+    func testAppendPerformance100Elements() {
+        let ll = LinkedList<Int>()
+        measure {
+            for _ in 0..<100 {
+                ll.append(2)
+            }
+        }
+
+        
+    }
     
 
 }

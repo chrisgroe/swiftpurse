@@ -45,32 +45,42 @@ public class LinkedList<Element>
         }
     }
     
-    func node(at index: Int) -> Node?{
-        if head == nil {
-            return nil
-        }
-        assert(index>=0)
+    func next(_ node : Node?) -> Node? {
+        node?.next
+    }
+    
+    func prev(_ node : Node?) -> Node? {
+        var nextNode = next(head)
         
-        if (index == 0)
-        {
-            return head
-        }
-        var currentNode = head
-        var currentIdx = 0
-        
-        while (currentNode!.next != nil) {
-            currentNode = currentNode!.next
-            
-            if currentNode != nil {
-                currentIdx+=1
-                
-                if index==currentIdx {
-                    return currentNode
-                }
+        while (nextNode != nil) {
+            if nextNode === node {
+                return node
             }
             
+            nextNode = next(nextNode)
         }
-        
+        return nil
+    }
+    
+    func node(at index: Int) -> Node? {
+        if (index >= startIndex) && (index<endIndex)
+        {
+            // special case
+            if (index == 0) {
+                return head
+            }
+            
+            var next_node = next(head)
+            var currentIdx = 1
+            
+            while (next_node != nil) {
+                if index==currentIdx {
+                    return next_node
+                }
+                next_node = next(next_node)
+                currentIdx+=1
+            }
+        }
         return nil
     } 
     
@@ -87,9 +97,61 @@ public class LinkedList<Element>
         }
     }
     
-    @discardableResult public func remove(at index:Int) -> Element
-    {
-        assert(startIndex != endIndex) // collection not empty
+    func insert(_ newElement:Element, at index:Int ) {
+        
+        assert(index>=startIndex)
+        
+        
+        // insert at start when collection is empty
+        if count == 0 && index == startIndex {
+            append(newElement)
+            return
+        }
+        
+        assert(count>0) // collection not empty
+        
+        
+         let new_node = Node(data: newElement)
+        
+        
+        // special case ... move head
+        if index == 0 {
+            let oldhead = head
+            head = new_node
+            head!.next = oldhead
+            endIndex += 1
+            return
+        }
+        
+        assert(index < (endIndex + 1))
+        
+        let prev_idx = index  - 1 // get previous item index
+        let prev_node = node(at: prev_idx)
+        
+        assert(prev_node != nil)
+        
+       
+        // insert at end
+        if index==endIndex {
+            
+            prev_node?.next = new_node
+            endIndex += 1
+        } else {
+            assert(index<endIndex)
+            
+            let node = next(prev_node)
+            
+            
+            assert(node != nil)
+            
+            prev_node?.next = new_node
+            new_node.next = node
+            endIndex += 1
+        }
+    }
+    
+    @discardableResult public func remove(at index:Int) -> Element {
+        assert(count>0) // collection not empty
         assert(index>=startIndex)
         assert(index<endIndex)
 
@@ -103,21 +165,20 @@ public class LinkedList<Element>
         
         let prev_idx = index  - 1 // get previous item
         let prev_node = node(at: prev_idx)
+        let node = next(prev_node)
         
-        
-        let node = prev_node!.next
-        
+        assert(prev_node != nil)
         assert(node != nil)
         
         // special case ... last node
         if node!.next == nil {
-            endIndex -= 1
             prev_node!.next = nil;
-            return node!.data
         }
-        
-        // replace connection
-        prev_node!.next = node!.next
+        else
+        {
+            // replace connection
+            prev_node!.next = node!.next
+        }
         endIndex -= 1
         return node!.data
     }   
