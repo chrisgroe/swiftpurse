@@ -9,33 +9,23 @@ ll.append("TEST4")
  
 
 print("---")
-for item in ll {
-    print(item)
-}
+print(ll)
 print("---")
 print(ll[2])
 print("---")
 ll.remove(at:2)
-for item in ll {
-    print(item)
-}
+print(ll)
 print("---")
 ll.remove(at:0)
-for item in ll {
-    print(item)
-}
+print(ll)
 print("---")
 ll.remove(at:1)
-for item in ll {
-    print(item)
-}
+print(ll)
 print("---")
-ll.remove(at:0)
-for item in ll {
-    print(item)
-}
+ll.removeAll()
+print(ll)
 print("---")
-
+ll.removeAll()
 
 var arr = Array<Int>(1...3)
 

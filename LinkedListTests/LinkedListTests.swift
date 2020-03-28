@@ -318,9 +318,20 @@ class LinkedListTests: XCTestCase {
                 ll.append(2)
             }
         }
-
-        
     }
     
+    func testCustomStringConvertible0Elements() {
+        let ll = LinkedList<Int>()
+        XCTAssertEqual(ll.description, "[]")
+    }
+    
+    func testCustomStringConvertible1Elements() {
+        let ll = LinkedList<Int>([0])
+        XCTAssertEqual(ll.description, "[0]")
+    }
+    func testCustomStringConvertible2Elements() {
+        let ll = LinkedList<Int>([0,1])
+        XCTAssertEqual(ll.description, "[0, 1]")
+    }
 
 }

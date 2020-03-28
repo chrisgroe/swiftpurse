@@ -1,6 +1,9 @@
 import Foundation
 
-
+/// Generic singly linked list implementation
+///
+/// This class can be used like an Array. It implements all major protocols an Array implements.
+/// For more information, see [Linked List - Wikipedia](https://en.wikipedia.org/wiki/Linked_list)
 public class LinkedList<Element>
 {
     public typealias Index = Int
@@ -17,20 +20,23 @@ public class LinkedList<Element>
     
     var head : Node?
     
+    /// The position of the first element in a nonempty array.
     public var startIndex : Index  = 0
+    
+    /// The array’s “past the end” position—that is, the position one greater than the last valid subscript argument.
     public var endIndex : Index = 0
     
-    public init() {
+    required public init() {
     }
     
-    public init<S>(_ s: S) where Element == S.Element, S : Sequence {
+    required public init<S>(_ s: S) where Element == S.Element, S : Sequence {
         // exhaust sequence
         for i in s {
             append(i)
         }
     }
     
-    public init(repeating repeatedValue: Element, count: Int) {
+    required public init(repeating repeatedValue: Element, count: Int) {
         for _ in 0..<count {
             append(repeatedValue)
         }
@@ -118,7 +124,7 @@ public class LinkedList<Element>
     /// - Parameters:
     ///     - newElement: The element to insert into the LinkedList.
     ///     - index : The position at which to insert the new element.
-    func insert(_ newElement:Element, at index:Int ) {
+    public func insert(_ newElement:Element, at index:Int ) {
         
         assert(index>=startIndex)
         
@@ -207,8 +213,7 @@ public class LinkedList<Element>
     }   
 }
 
-// MARK: Sequence
-
+// MARK: - Sequence Protocol
 extension LinkedList : Sequence
 {
     public typealias Iterator = LinkedListIterator
@@ -244,8 +249,7 @@ extension LinkedList : Sequence
     
 }
 
-// MARK: MutableCollection
-
+// MARK: - MutableCollection Protocol
 extension LinkedList : MutableCollection
 {
     public func index(after i: Int) -> Int {
@@ -294,4 +298,29 @@ extension LinkedList {
         return new_ll
         
     }
+}
+
+
+// MARK: - CustomStringConvertible Protocol
+extension LinkedList: CustomStringConvertible where Element: CustomStringConvertible {
+  
+  public var description: String {
+    
+    var text = "["
+    var node = head
+    
+    while node != nil {
+        text += "\(node!.data)"
+        node = node!.next
+        if node != nil {
+            text += ", "
+        }
+    }
+    
+    return text + "]"
+  }
+}
+
+extension LinkedList : RangeReplaceableCollection {
+    
 }
