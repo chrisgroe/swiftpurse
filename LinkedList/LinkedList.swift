@@ -1,10 +1,5 @@
 import Foundation
 
-enum LinkedListErrors : Error {
-    case IndexOutOfRange
-}
-
-
 
 public class LinkedList<Element>
 {
@@ -22,41 +17,36 @@ public class LinkedList<Element>
     
     var head : Node?
     
-    public var startIndex : Index
-    public var endIndex : Index
+    public var startIndex : Index  = 0
+    public var endIndex : Index = 0
     
     public init() {
-        startIndex = 0
-        endIndex = 0
     }
     
     public init<S>(_ s: S) where Element == S.Element, S : Sequence {
-        startIndex = 0
-        endIndex = 0
-        
         // exhaust sequence
         for i in s {
             append(i)
         }
     }
     
-    
-    
     public init(repeating repeatedValue: Element, count: Int) {
-        startIndex = 0
-        endIndex = 0
-        
         for _ in 0..<count {
             append(repeatedValue)
         }
-        
     }
     
+    /// The first element of the LinkedList.
+    ///
+    /// Is nil when the LinkedList  is empty.
     var first : Element? {
         head?.data
     }
 
     
+    /// The last node in the collection
+    ///
+    /// Is nil when the LinkedList is empty.
     var tail : Node? {
         get {
             if head == nil {
@@ -64,13 +54,16 @@ public class LinkedList<Element>
             }
             
             var currentNode = head
-            while (currentNode!.next != nil) {
-                currentNode = currentNode!.next
+            while (hasNext(currentNode)) {
+                currentNode = next(currentNode)
             }
             return currentNode
         }
     }
     
+    /// The last element of the LinkedList.
+    ///
+    /// Is nil  the LinkedList is empty.
     var last : Element? {
         tail?.data
     }
@@ -79,6 +72,10 @@ public class LinkedList<Element>
         node?.next
     }
     
+    func hasNext(_ node : Node?) -> Bool {
+        next(node) != nil
+    }
+
     func node(at index: Int) -> Node? {
         if (index >= startIndex) && (index<endIndex)
         {
@@ -101,6 +98,9 @@ public class LinkedList<Element>
         return nil
     } 
     
+    /// Adds a new element at the end of the LinkedList.
+    /// - Parameters:
+    ///     - newElement: The element to append to the LinkedList.
     public func append(_ newElement: Element) {
         // pack in Node
         let node = Node(data: newElement)
@@ -114,6 +114,10 @@ public class LinkedList<Element>
         }
     }
     
+    /// Inserts a new element at the specified position.
+    /// - Parameters:
+    ///     - newElement: The element to insert into the LinkedList.
+    ///     - index : The position at which to insert the new element.
     func insert(_ newElement:Element, at index:Int ) {
         
         assert(index>=startIndex)
@@ -127,8 +131,7 @@ public class LinkedList<Element>
         
         assert(count>0) // collection not empty
         
-        
-         let new_node = Node(data: newElement)
+        let new_node = Node(data: newElement)
         
         
         // special case ... move head
@@ -147,7 +150,6 @@ public class LinkedList<Element>
         
         assert(prev_node != nil)
         
-       
         // insert at end
         if index==endIndex {
             
@@ -158,7 +160,6 @@ public class LinkedList<Element>
             
             let node = next(prev_node)
             
-            
             assert(node != nil)
             
             prev_node?.next = new_node
@@ -168,6 +169,10 @@ public class LinkedList<Element>
         
     }
     
+    /// Removes and returns the element at the specified position.
+    /// - Parameters:
+    ///     - index: The position of the element to remove.
+    /// - Returns: The element at the specified index.
     @discardableResult public func remove(at index:Int) -> Element {
         assert(count>0) // collection not empty
         assert(index>=startIndex)
@@ -290,26 +295,3 @@ extension LinkedList {
         
     }
 }
-
-
-/*
-extension LinkedList {
-    
-    public class LinkedListSlice {
-        var startIndex : Index
-        var endIndex : Index
-        
-        init(startIndex : Index, endIndex:Index) {
-            self.startIndex = startIndex
-            self.endIndex = endIndex
-        }
-        
-
-        
-    }
-    
-    public func prefix(through: Index ) -> LinkedListSlice {
-        return LinkedListSlice(startIndex: 0, endIndex: through)
-    }
-    
-}*/

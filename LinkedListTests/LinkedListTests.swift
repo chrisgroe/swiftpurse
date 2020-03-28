@@ -42,7 +42,7 @@ class LinkedListTests: XCTestCase {
 
     func testFirst0Elements() {
         let ll = LinkedList<String>()
-        
+
         XCTAssertNil(ll.first)
     }
     
