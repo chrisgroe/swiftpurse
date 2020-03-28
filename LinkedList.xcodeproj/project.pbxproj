@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		08BD7C95242C82CC00FE4346 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BD7C94242C82CC00FE4346 /* main.swift */; };
 		08BD7D1B242DF6CD00FE4346 /* LinkedList.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08BD7D12242DF6CD00FE4346 /* LinkedList.framework */; };
 		08BD7D20242DF6CD00FE4346 /* LinkedListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BD7D1F242DF6CD00FE4346 /* LinkedListTests.swift */; };
 		08BD7D29242DF6D700FE4346 /* LinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BD7C9B242C832400FE4346 /* LinkedList.swift */; };
@@ -37,8 +36,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		087C4C8A242F287F00FA51FF /* LinkedList.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = LinkedList.playground; path = ../LinkedList.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		08BD7C91242C82CC00FE4346 /* LinkedListCmd */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = LinkedListCmd; sourceTree = BUILT_PRODUCTS_DIR; };
-		08BD7C94242C82CC00FE4346 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		08BD7C9B242C832400FE4346 /* LinkedList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkedList.swift; sourceTree = "<group>"; };
 		08BD7D12242DF6CD00FE4346 /* LinkedList.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LinkedList.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		08BD7D15242DF6CD00FE4346 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -77,7 +76,7 @@
 		08BD7C88242C82CC00FE4346 = {
 			isa = PBXGroup;
 			children = (
-				08BD7C93242C82CC00FE4346 /* LinkedListCmd */,
+				087C4C8A242F287F00FA51FF /* LinkedList.playground */,
 				08BD7D13242DF6CD00FE4346 /* LinkedList */,
 				08BD7D1E242DF6CD00FE4346 /* LinkedListTests */,
 				08BD7C92242C82CC00FE4346 /* Products */,
@@ -93,14 +92,6 @@
 				08BD7D1A242DF6CD00FE4346 /* LinkedListTests.xctest */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		08BD7C93242C82CC00FE4346 /* LinkedListCmd */ = {
-			isa = PBXGroup;
-			children = (
-				08BD7C94242C82CC00FE4346 /* main.swift */,
-			);
-			path = LinkedListCmd;
 			sourceTree = "<group>";
 		};
 		08BD7D13242DF6CD00FE4346 /* LinkedList */ = {
@@ -257,7 +248,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				08BD7C95242C82CC00FE4346 /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
