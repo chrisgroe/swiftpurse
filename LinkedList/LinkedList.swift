@@ -84,9 +84,9 @@ public class LinkedList<Element>
         return nil
     } 
     
-    public func append(_ element: Element) {
+    public func append(_ newElement: Element) {
         // pack in Node
-        let node = Node(data: element)
+        let node = Node(data: newElement)
         
         endIndex += 1
         if head == nil {
