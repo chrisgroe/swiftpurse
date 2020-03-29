@@ -16,7 +16,8 @@ let constant = 123
 var variable = 1234
 variable = 4321
 
-let constant2 = variable // Constants must not be known at compile time, but you can assign their value only once.
+// Constants must not be known at compile time, but you can assign their value only once.
+let constant2 = variable
 
 let a = 0, b = 0, c = 0 // multiple declarations in one line
 var x = 0, y = 0, z = 0 // multiple declarations in one line
@@ -27,6 +28,8 @@ var x = 0, y = 0, z = 0 // multiple declarations in one line
 var implicitIntger = 70 // implicit Int
 var implicitDouble = 70.0 // implicit Double
 var implicitDouble2 = 3 + 0.124 // implicit Double
+
+// explicit type annotations are rarely used. I
 var explicitDouble:Double = 70 // explicit ... this is called type annotation
 let explicitConstFloat:Float = 4 // explicit ... this is called type annotation
 
@@ -117,6 +120,7 @@ tuple2.name
 let dollarSign = "\u{24}"        // $,  Unicode scalar U+0024
 let blackHeart = "\u{2665}"      // ♥,  Unicode scalar U+2665
 let sparklingHeart = "\u{1F496}" // 💖, Unicode scalar U+1F496“
+let readCircle = "\u{1F534}\u{26aa} \u{274C} \u{2500}"
 
 // string interpolation
 var name="Christian"
@@ -349,6 +353,7 @@ for i in 0..<5 // 0 to 4
     print("for \(i)")
 }
 type(of: 0..<5)
+
 // -------------------------------------------------------------
 // Optionals
 // -------------------------------------------------------------
@@ -479,11 +484,19 @@ funcArg(f:increment)
 // -------------------------------------------------------------
 
 // Closures and nested function do have access to variables of the scope where they are created
-var closure = { (value:Int) -> Int in // after in the code starts
+var closure1 = { (value:Int) -> Int in // after in the code starts
     return(value*3)
 }
 
-print(closure(4))
+print(closure1(4))
+
+var closure2 : ((Int)->Int) = { value  in // after in the code starts
+    return(value*3)
+}
+
+print(closure2(4))
+
+
 
 // -------------------------------------------------------------
 // Single statement closures
@@ -499,6 +512,11 @@ print(numbers.map({number in 3*number})) // Review: map
 
 // or even shorter
 print(numbers.map({4*$0}))
+
+var closure3  = { $0*3 } // $0 can be deduced by return type .. without *3 it will not work
+closure3
+
+print(closure3(4))
 
 // If there are multiple lines of code inside the
 // closure body, then we cannot omit the return statement.

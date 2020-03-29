@@ -53,7 +53,7 @@ public class LinkedList<Element>
     /// The last node in the collection
     ///
     /// Is nil when the LinkedList is empty.
-    var tail : Node? {
+    var endNode : Node? {
         get {
             if head == nil {
                 return nil
@@ -67,11 +67,28 @@ public class LinkedList<Element>
         }
     }
     
+    var pennultimateNode : Node? {
+        get {
+            if head == nil {
+                return nil
+            }
+            
+            var currentNode = head
+            var penuNode : Node? = nil
+            while (hasNext(currentNode)) {
+                penuNode = currentNode
+                currentNode = next(currentNode)
+            }
+            return penuNode
+        }
+    }
+    
+    
     /// The last element of the LinkedList.
     ///
     /// Is nil  the LinkedList is empty.
     public var last : Element? {
-        tail?.data
+        endNode?.data
     }
     
     func next(_ node : Node?) -> Node? {
@@ -127,7 +144,7 @@ public class LinkedList<Element>
         if head == nil {
             head = node
         } else {
-            let tailNode = tail
+            let tailNode = endNode
             tailNode!.next = node
         }
     }
@@ -244,7 +261,7 @@ extension LinkedList : Sequence
     }
     
     public func makeIterator()->LinkedListIterator {
-        return LinkedListIterator(start: head, end:tail)
+        return LinkedListIterator(start: head, end:endNode)
     }
     
     
@@ -324,5 +341,88 @@ extension LinkedList: CustomStringConvertible where Element: CustomStringConvert
 
 // MARK: - CustomStringConvertible Protocol
 extension LinkedList : RangeReplaceableCollection {
+    public func removeFirst() -> Element {
+        assert(count != 0)
+        let oldhead = head
+        head=next(head)
+        endIndex -= 1
+        return oldhead!.data
+    }
     
+    
+    public func removeFirst(_ k: Index) {
+        assert(count != 0)
+        assert(k>=startIndex)
+        assert(k<=endIndex)
+        
+        for _ in 0..<k { // better performance than using node(at:)
+            head = next(head)
+        }
+        endIndex -= k
+    }
+    
+    public func removeLast() -> Element {
+        assert(count != 0)
+        let pennuNode = pennultimateNode
+        
+        endIndex -= 1
+        var endNode : Node?
+        
+        // special case ... head exists but has no next node
+        if head != nil && pennuNode == nil {
+            endNode = head
+            head = nil
+        } else {
+            endNode = pennuNode?.next
+            pennuNode?.next = nil
+        }
+        return endNode!.data
+    }
+    
+    public func removeLast(_ k: Index)  {
+        assert(count != 0)
+        assert(k>=startIndex)
+        assert(k<=endIndex)
+        
+        let prevNodeIndex = endIndex - k - 1
+        endIndex -= k
+        
+        if prevNodeIndex<0 {
+            head=nil
+        } else {
+            let prevNode = node(at: prevNodeIndex)
+            prevNode?.next = nil
+        }
+    }
+    
+    public func removeSubrange(_ bounds: Range<Index>) {
+        assert(count != 0)
+        assert(bounds.lowerBound>=startIndex)
+        assert(bounds.upperBound<=endIndex)
+        
+        
+        var fromNode : Node? = head
+        if bounds.lowerBound - 1  < 0 {
+            fromNode = nil
+        } else {
+            for _ in 0..<bounds.lowerBound - 1 { // better performance than using node(at:)
+                fromNode = next(fromNode)
+            }
+        }
+        var toNode : Node? = head
+        for _ in 0..<bounds.upperBound { // better performance than using node(at:)
+            toNode = next(toNode)
+        }
+        
+        endIndex -= bounds.upperBound - bounds.lowerBound
+        if fromNode == nil && toNode !=  nil {
+            head = toNode
+            
+        } else if fromNode != nil && toNode == nil {
+            fromNode?.next = nil
+        } else {
+            head = fromNode
+            fromNode?.next = toNode
+        }
+    }
 }

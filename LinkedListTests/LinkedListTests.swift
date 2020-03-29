@@ -311,6 +311,18 @@ class LinkedListTests: XCTestCase {
         XCTAssertEqual(ll.count,10)
         XCTAssertEqual(Array<Int>(ll), Array<Int>(1...10))
     }
+
+    
+    func testPrepend3Elements() {
+         let ll = LinkedList<Int>()
+         ll.prepend(10)
+         ll.prepend(20)
+         ll.prepend(30)
+
+         XCTAssertEqual(Array<Int>(ll), [30,20,10])
+     }
+
+    // MARK: Tests CustomStringConvertible
     
     func testCustomStringConvertible0Elements() {
         let ll = LinkedList<Int>()
@@ -326,16 +338,130 @@ class LinkedListTests: XCTestCase {
         XCTAssertEqual(ll.description, "[0, 1]")
     }
     
-    func testPrepend3Elements() {
-        let ll = LinkedList<Int>()
-        ll.prepend(10)
-        ll.prepend(20)
-        ll.prepend(30)
+    // MARK: Tests RemoveFirst
+    func testRemoveFirst3Elements() {
+        let ll = LinkedList<Int>([1,2,3])
 
-        XCTAssertEqual(Array<Int>(ll), [30,20,10])
+        XCTAssertEqual(ll.removeFirst(), 1)
+        XCTAssertEqual(ll.removeFirst(), 2)
+        XCTAssertEqual(ll.removeFirst(), 3)
+        XCTAssertEqual(ll.count, 0)
+        XCTAssertEqual(Array<Int>(ll), [])
+    }
+    
+    func testRemoveFirstSec3of3() {
+        let ll = LinkedList<Int>([1,2,3])
+        ll.removeFirst(3)
+        XCTAssertEqual(ll.count, 0)
+        XCTAssertEqual(Array<Int>(ll), [])
+
+    }
+    
+    // MARK: Tests RemoveLast
+    
+    func testRemoveLast3Of3() {
+        let ll = LinkedList<Int>([1,2,3])
+
+        XCTAssertEqual(ll.removeLast(), 3)
+        XCTAssertEqual(ll.removeLast(), 2)
+        XCTAssertEqual(ll.removeLast(), 1)
+        XCTAssertEqual(ll.count, 0)
+        XCTAssertEqual(Array<Int>(ll), [])
+    }
+    
+    func testRemoveLastSec3Of3() {
+        let ll = LinkedList<Int>([1,2,3])
+
+        ll.removeLast(3)
+        XCTAssertEqual(ll.count, 0)
+        XCTAssertEqual(Array<Int>(ll), [])
+    }
+    
+    // MARK: Tests RemoveSubrange
+
+    func testRemoveSubrangeFromRight1Of3() {
+        var ll = LinkedList<Int>([1,2,3])
+
+        ll.removeSubrange(2...2)
+        XCTAssertEqual(ll.count, 2)
+        XCTAssertEqual(Array<Int>(ll), [1,2])
+    }
+    
+    func testRemoveSubrangeFromRight2Of3() {
+        var ll = LinkedList<Int>([1,2,3])
+
+        ll.removeSubrange(1...2)
+        XCTAssertEqual(ll.count, 1)
+        XCTAssertEqual(Array<Int>(ll), [1])
+    }
+    
+    func testRemoveSubrangeFromRight3Of3() {
+        var ll = LinkedList<Int>([1,2,3])
+
+        ll.removeSubrange(0...2)
+        XCTAssertEqual(ll.count, 0)
+        XCTAssertEqual(Array<Int>(ll), [])
+    }
+    func testRemoveSubrangeFromLeft2Of3() {
+        var ll = LinkedList<Int>([1,2,3])
+
+        ll.removeSubrange(0...1)
+        XCTAssertEqual(ll.count, 1)
+        XCTAssertEqual(Array<Int>(ll), [3])
+    }
+    
+    func testRemoveSubrangeFromLeft1Of3() {
+        var ll = LinkedList<Int>([1,2,3])
+
+        ll.removeSubrange(0...0)
+        XCTAssertEqual(ll.count, 2)
+        XCTAssertEqual(Array<Int>(ll), [2,3])
+    }
+    
+    func testRemoveSubrangeMid1Of3() {
+        var ll = LinkedList<Int>([1,2,3])
+
+        ll.removeSubrange(1...1)
+        XCTAssertEqual(ll.count, 2)
+        XCTAssertEqual(Array<Int>(ll), [1,3])
+    }
+    
+    func testRemoveSubrangeMid2Of4() {
+        var ll = LinkedList<Int>([1,2,3,4])
+
+        ll.removeSubrange(1...2)
+        XCTAssertEqual(ll.count, 2)
+        XCTAssertEqual(Array<Int>(ll), [1,4])
+    }
+    
+    func testRemoveSubrange1of1() {
+        var ll = LinkedList<Int>([1])
+
+        ll.removeSubrange(0...0)
+        XCTAssertEqual(ll.count, 0)
+        XCTAssertEqual(Array<Int>(ll), [])
+    }
+    
+    func testRemoveSubrange2of2() {
+        var ll = LinkedList<Int>([1, 2])
+
+        ll.removeSubrange(0...1)
+        XCTAssertEqual(ll.count, 0)
+        XCTAssertEqual(Array<Int>(ll), [])
     }
     
     
+    func testRemoveLastSec2Of3() {
+        let ll = LinkedList<Int>([1,2,3])
+
+        ll.removeLast(2)
+        XCTAssertEqual(ll.count, 1)
+        XCTAssertEqual(Array<Int>(ll), [1])
+    }
+
+
+ 
+    // MARK: Performance
     func testAppendPerformance100Elements() {
         let ll = LinkedList<Int>()
         measure {
