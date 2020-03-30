@@ -507,6 +507,35 @@ class LinkedListTests: XCTestCase {
         XCTAssertEqual(ll.count, 6)
         XCTAssertEqual(Array<Int>(ll), [8, 5, 3, 2, 1, 1])
     }
+    
+    // MARK: Equatable
+    func testEqual5Elements() {
+        var ll1 = LinkedList<Int>(1,2,3,4,5,6)
+        var ll2 = LinkedList<Int>(1,2,3,4,5,6)
+        XCTAssertTrue(ll1 == ll2)
+        
+        ll2 = LinkedList<Int>(1,2,3,4,6,5)
+        XCTAssertFalse(ll1 == ll2)
+        
+        ll1 = LinkedList<Int>(2,1,3,4,5,6)
+        ll2 = LinkedList<Int>(1,2,3,4,5,6)
+        XCTAssertFalse(ll1 == ll2)
+    }
+    
+    func testNotEqual5Elements() {
+        var ll1 = LinkedList<Int>(1,2,3,4,5,6)
+        var ll2 = LinkedList<Int>(1,2,3,4,5,6)
+        XCTAssertFalse(ll1 != ll2)
+        
+        ll2 = LinkedList<Int>(1,2,3,4,6,5)
+        XCTAssertTrue(ll1 != ll2)
+        
+        ll1 = LinkedList<Int>(2,1,3,4,5,6)
+        ll2 = LinkedList<Int>(1,2,3,4,5,6)
+        XCTAssertTrue(ll1 != ll2)
+    }
+    
+    
 
  
     // MARK: Performance
