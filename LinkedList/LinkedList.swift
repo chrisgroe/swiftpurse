@@ -42,6 +42,10 @@ public class LinkedList<Element>
         }
     }
     
+    convenience public init(_ values: Element...) {
+        self.init(values)
+    }
+    
     /// The first element of the LinkedList.
     ///
     /// Is nil when the LinkedList  is empty.
@@ -167,8 +171,8 @@ public class LinkedList<Element>
         
         let newNode = Node(data: newElement)
         
-        // special case ... move head
-        if index == 0 {
+        guard index != 0 else {
+            // special case ... move head
             let oldhead = head
             head = newNode
             head!.next = oldhead
@@ -209,10 +213,11 @@ public class LinkedList<Element>
         assert(index>=startIndex)
         assert(index<endIndex)
 
-        // special case ... move head
-        if index == 0 {
+        
+        guard index != 0 else {
+            // special case ... index 0 is head
             let oldhead = head
-            head = next(head)
+            head = next(head) // move head
             endIndex -= 1
             return oldhead!.data
         }
@@ -228,7 +233,34 @@ public class LinkedList<Element>
         endIndex -= 1
         
         return node!.data
-    }   
+    }
+    
+    /// Reverses the linked list
+    public func reverse() {
+        
+        guard count>=2 else {
+            // special case .. do nothing
+            return
+        }
+        
+       
+        var nextNode = next(next(head))
+        var node = next(head)
+        var prevNode = head
+        
+        repeat {
+            node?.next = prevNode
+            
+            if prevNode === head {
+                prevNode?.next = nil
+            }
+            
+            prevNode = node
+            node = nextNode
+            nextNode = next(node)
+        } while (node != nil)
+        head = prevNode
+    }
 }
 
 // MARK: - Sequence Protocol

@@ -39,7 +39,7 @@ var x0,y0,z0 : Double // mutiple type annotations in one line
 // Swift never does implicit conversions
 var str = "Test"
 var implInt = 123
-print(str + String(implInt)) // when conversion is removed --> error
+str + String(implInt) // when conversion is removed --> error
 
 // -------------------------------------------------------------
 // Integers
@@ -129,14 +129,14 @@ print("Hello \(name)")
 
 var cakes = 13
 var breads = 10
-print("cakes:\(cakes), breads:\(breads), cakes+breads:\(cakes+breads)")
+"cakes:\(cakes), breads:\(breads), cakes+breads:\(cakes+breads)"
 
 // how to omit string interpolation
-print(#"Write an interpolated string in Swift using \(multiplier)."#)
+#"Write an interpolated string in Swift using \(multiplier)."#
 
 var emptyString = ""
 if emptyString.isEmpty {
-    print("Nothing to see here")
+    "Nothing to see here"
 }
 
 var variableString = "Horse"
@@ -154,18 +154,18 @@ welcome.count
 // -------------------------------------------------------------
 // Multiple line strings
 // -------------------------------------------------------------
-print("""
+"""
 line 1
     line 2
 line 3
-""")
+"""
 
 // Identation is removed when it machtes the closeing identation mark
-print("""
+"""
     line 4
         line 5
     line 6
-    """)
+    """
 
 // -------------------------------------------------------------
 // String index
@@ -343,17 +343,46 @@ repeat
 // closed range
 for i in 0...5 // 0 to 5
 {
-    print("for \(i)")
+    print("closed range \(i)")
 }
 
 type(of: 0...5)
 // half open range
 for i in 0..<5 // 0 to 4
 {
-    print("for \(i)")
+    print("opend range \(i)")
 }
 type(of: 0..<5)
 
+// stride closed range
+for i in stride(from: 0, to: 60, by: 15)
+{
+     print("stride closed ... \(i)")
+}
+
+// stride open range
+for i in stride(from: 0, through: 60, by: 15)
+{
+     print("stride open ... \(i)")
+}
+
+// labeled statements: also works for do repeat and while
+
+outerLoop: for j in 0..<5 // 0 to 4
+{
+    innerLoop: for k in 0..<5 // 0 to 4
+    {
+        if j>=2 {
+            continue outerLoop
+        }
+        
+        if k>=2 {
+            continue innerLoop
+        }
+        print("j=\(j), k=\(k)")
+        
+    }
+}
 // -------------------------------------------------------------
 // Optionals
 // -------------------------------------------------------------
@@ -414,18 +443,51 @@ print("ot1 = \(ot1 ?? "unknown"), ot2 = \(ot2 ?? "unknown")");
 // -------------------------------------------------------------
 // Switch case
 // -------------------------------------------------------------
+
+// Interval matching
+let n = 5
+
+switch n {
+case 0...4:
+    print("0...4")
+case 5...6:
+    print("5...6")
+default:
+    print("None")
+}
+
+
+// test tuples
+
+let punkt = (5,4)
+switch punkt {
+case (0...6, _) : // _ ignores value
+    "CASE"
+    fallthrough // checks next conditions
+
+case (0...6, 0...5) : // first match is used when fallthrough is not applied
+    "CASE 2"
+    
+default:
+    "SOMETHING"
+}
+
+// Value binding
 let vegetable = "red pepper"
 switch vegetable {
 case "celery":
-    print("Add some raisins and make ants on a log.")
+    "Add some raisins and make ants on a log."
     // no break necessary
 case "cucumber", "watercress":
-    print("That would make a good tea sandwich.")
-case let x where x.hasSuffix("pepper"): // TODO: Understand these
-    print("Is it a spicy \(x)?")
+    "That would make a good tea sandwich."
+case let x where x.hasSuffix("pepper"): // x is bound to the match. where is used to check additional conditions
+    "Is it a spicy \(x)?"
 default: // switch must be exhaustive .. therefore default case is required here
-    print("Everything tastes good in soup.")
+    "Everything tastes good in soup."
 }
+
+
+
 
 // -------------------------------------------------------------
 // Functions
@@ -471,8 +533,8 @@ incr(5)
 // -------------------------------------------------------------
 // Functions as arguments
 // -------------------------------------------------------------
-func funcArg(f : ((Int)->Int)){
-    print(f(5))
+func funcArg(f : ((Int)->Int)) -> Int{
+    f(5)
 }
 func increment(_ value : Int)-> Int {
     return value+1
@@ -488,13 +550,13 @@ var closure1 = { (value:Int) -> Int in // after in the code starts
     return(value*3)
 }
 
-print(closure1(4))
+closure1(4)
 
 var closure2 : ((Int)->Int) = { value  in // after in the code starts
     return(value*3)
 }
 
-print(closure2(4))
+closure2(4)
 
 
 
@@ -508,15 +570,15 @@ print(numbers.map({number in
 }))
 
 // shorter ... single statement closure return the result of the operation implicilty
-print(numbers.map({number in 3*number})) // Review: map
+numbers.map({number in 3*number}) // Review: map
 
 // or even shorter
-print(numbers.map({4*$0}))
+numbers.map({4*$0})
 
 var closure3  = { $0*3 } // $0 can be deduced by return type .. without *3 it will not work
 closure3
 
-print(closure3(4))
+closure3(4)
 
 // If there are multiple lines of code inside the
 // closure body, then we cannot omit the return statement.
@@ -534,8 +596,8 @@ class TestClass {
         attrib2 = 20
     }
     
-    func doSomething() {
-        print("\(attrib1+attrib2)")
+    func doSomething() -> String {
+        return "\(attrib1+attrib2)"
     }
 }
 
@@ -637,7 +699,7 @@ var rank3_1 = Rank2(rawValue: 1)
 var rank3_2 = Rank2(rawValue: 0) // does not exists
 
 if let rank3_3 = Rank2(rawValue:2) {
-    print(rank3_3.toString())
+    rank3_3.toString()
 }
 
 // -------------------------------------------------------------
@@ -678,7 +740,7 @@ let point = Point(x: 3, y: 2)
 // -------------------------------------------------------------
 protocol TestProtocol {
     var a : Int {get}
-    func testMethod()
+    func testMethod() -> String
 }
 
 class TestTester : TestProtocol {
@@ -687,16 +749,17 @@ class TestTester : TestProtocol {
     init() {
         a = 10
     }
-    func testMethod() {
-        
+    func testMethod() -> String  {
+        return "TestTester.testMethod"
     }
 }
 
 var testy = TestTester()
-var testProtocoll = testy as TestProtocol // convert to protocol
+var testProtocol1 = testy as TestProtocol // convert to protocol
+testProtocol1.testMethod()
 
 var testProtocol2 : TestProtocol = testy // assign protocol
-
+testProtocol2.testMethod()
 // -------------------------------------------------------------
 // Extensions
 // -------------------------------------------------------------
@@ -705,8 +768,8 @@ extension Int : TestProtocol { // add protocol to type
         return 5
     }
     
-    func testMethod() {
-        print("test")
+    func testMethod() -> String {
+        "extension to int" // when only one line long the return statement can be ommitted
     }
     
     
@@ -719,13 +782,13 @@ num.testMethod()
 // Error Handling through error Protocol
 // -------------------------------------------------------------
 enum CustomError : Error {
-    case test1
-    case test2
-    case test3(arg : String)
+    case TestError1
+    case TestError2
+    case TestError3(arg : String)
 }
 
 func testFunc() throws {
-    throw CustomError.test2
+    throw CustomError.TestError2
 }
 do {
     try testFunc()
@@ -733,19 +796,21 @@ do {
     error // standardd name is error
 }
 
-func testFunc2() throws -> Int{
-    throw CustomError.test3(arg:"FDF")
+func testFunc2(val : Int) throws -> Int{
+    if val>5 {
+        throw CustomError.TestError3(arg:"FDF")
+    }
     return 0
 }
 do {
-    try testFunc2()
+    try testFunc2(val:6)
 } catch let terr as CustomError{
     terr // standardd name is err
     
 }
 
 // single line .. returns nil if an error was thrown
-var result = try? testFunc2()
+var result = try? testFunc2(val:6)
 
 // -------------------------------------------------------------
 // Defer
@@ -788,3 +853,17 @@ anyCommonElements([1, 2, 3], [3])
 let a0=10; print(a0) // only required for mupltiple commands on single line
 
 
+// -------------------------------------------------------------
+// Guards
+// -------------------------------------------------------------
+
+func testGuard(val : Int?) -> String
+{
+    guard let v = val else {
+        return "Guard"
+    }
+    return "val was \(v)"
+}
+
+testGuard(val: nil)
+testGuard(val: 1)

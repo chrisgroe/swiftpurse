@@ -459,6 +459,54 @@ class LinkedListTests: XCTestCase {
         XCTAssertEqual(Array<Int>(ll), [1])
     }
 
+    // MARK: Reverse
+    
+    func testReverseLinkedListEmpty() {
+        let ll = LinkedList<Int>()
+        
+        ll.reverse()
+        
+        XCTAssertEqual(ll.count, 0)
+        XCTAssertEqual(Array<Int>(ll), [])
+    }
+    
+    func testReverseLinkedList1Element() {
+        let ll = LinkedList<Int>(123)
+        
+        ll.reverse()
+        
+        XCTAssertEqual(ll.count, 1)
+        XCTAssertEqual(Array<Int>(ll), [123])
+    }
+
+    func testReverseLinkedList2Elements() {
+        let ll = LinkedList<Int>(123,321)
+        
+        ll.reverse()
+        
+        XCTAssertEqual(ll.count, 2)
+        XCTAssertEqual(Array<Int>(ll), [321, 123])
+    }
+    
+    func testReverseLinkedList3Element() {
+          let ll = LinkedList<Int>(0,1,2)
+          
+          ll.reverse()
+          
+          XCTAssertEqual(ll.count, 3)
+          XCTAssertEqual(Array<Int>(ll), [2,1,0])
+      }
+      
+    
+    
+    func testReverseLinkedList() {
+        let ll = LinkedList(1, 1, 2, 3, 5, 8)
+        
+        ll.reverse()
+        
+        XCTAssertEqual(ll.count, 6)
+        XCTAssertEqual(Array<Int>(ll), [8, 5, 3, 2, 1, 1])
+    }
 
  
     // MARK: Performance
