@@ -236,13 +236,13 @@ public class LinkedList<Element>
     }
     
     /// Reverses the linked list
+    /// - Complexity: O(n), where n is the length of the list
     public func reverse() {
         
         guard count>=2 else {
             // special case .. do nothing
             return
         }
-        
        
         var nextNode = next(next(head))
         var node = next(head)
@@ -259,7 +259,7 @@ public class LinkedList<Element>
             node = nextNode
             nextNode = next(node)
         } while (node != nil)
-        head = prevNode
+        head = prevNode // set new head
     }
 }
 
