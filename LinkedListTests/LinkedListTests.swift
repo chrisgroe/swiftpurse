@@ -521,6 +521,11 @@ class LinkedListTests: XCTestCase {
         ll2 = LinkedList<Int>(1,2,3,4,5,6)
         XCTAssertFalse(ll1 == ll2)
     }
+    func testEqual_differentLength_returnFalse() {
+        let ll1 = LinkedList<Int>(1,2,3,4,5,6)
+        let ll2 = LinkedList<Int>(1,2,3,4,5)
+        XCTAssertFalse(ll1 == ll2)
+    }
     
     func testNotEqual5Elements() {
         var ll1 = LinkedList<Int>(1,2,3,4,5,6)
