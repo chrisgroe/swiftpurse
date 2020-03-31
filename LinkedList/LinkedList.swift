@@ -58,17 +58,17 @@ public class LinkedList<Element>
     /// The last node in the collection
     ///
     /// Is nil when the LinkedList is empty.
-    var endNode : Node? {
+    var end : Node? {
         get {
             if head == nil {
                 return nil
             }
             
-            var currentNode = head
-            while (hasNext(currentNode)) {
-                currentNode = currentNode?.next
+            var node = head
+            while (hasNext(node)) {
+                node = node?.next
             }
-            return currentNode
+            return node
         }
     }
     
@@ -78,13 +78,13 @@ public class LinkedList<Element>
                 return nil
             }
             
-            var currentNode = head
-            var penuNode : Node? = nil
-            while (hasNext(currentNode)) {
-                penuNode = currentNode
-                currentNode = currentNode?.next
+            var node = head
+            var pennu : Node? = nil
+            while (hasNext(node)) {
+                pennu = node
+                node = node?.next
             }
-            return penuNode
+            return pennu
         }
     }
     
@@ -93,7 +93,7 @@ public class LinkedList<Element>
     ///
     /// Is nil  the LinkedList is empty.
     public var last : Element? {
-        endNode?.data
+        end?.data
     }
     
     
@@ -101,7 +101,7 @@ public class LinkedList<Element>
         node!.next != nil
     }
 
-    func node(at index: Int) -> Node? {
+    func gotoNode(at index: Int) -> Node? {
         if (index >= startIndex) && (index<endIndex)
         {
             // special case
@@ -109,14 +109,14 @@ public class LinkedList<Element>
                 return head
             }
             
-            var nextNode = head?.next
+            var next = head?.next
             var currIndex = 1
             
-            while (nextNode != nil) {
+            while (next != nil) {
                 if index==currIndex {
-                    return nextNode
+                    return next
                 }
-                nextNode = nextNode?.next
+                next = next?.next
                 currIndex+=1
             }
         }
@@ -146,8 +146,8 @@ public class LinkedList<Element>
         if head == nil {
             head = node
         } else {
-            let tailNode = endNode
-            tailNode!.next = node
+            let tail = end
+            tail!.next = node
         }
     }
     
@@ -167,12 +167,12 @@ public class LinkedList<Element>
         
         assert(count>0) // collection not empty
         
-        let newNode = Node(data: newElement)
+        let new = Node(data: newElement)
         
         guard index != 0 else {
             // special case ... move head
             let oldhead = head
-            head = newNode
+            head = new
             head!.next = oldhead
             endIndex += 1
             return
@@ -180,23 +180,23 @@ public class LinkedList<Element>
         
         assert(index < (endIndex + 1))
         
-        let prevNode = node(at: index  - 1)
+        let prev = gotoNode(at: index  - 1)
         
-        assert(prevNode != nil)
+        assert(prev != nil)
         
         // insert at end
         if index==endIndex {
-            prevNode?.next = newNode
+            prev?.next = new
             endIndex += 1
         } else {
             assert(index<endIndex)
             
-            let node = prevNode?.next
+            let node = prev?.next
             
             assert(node != nil)
             
-            prevNode?.next = newNode
-            newNode.next = node
+            prev?.next = new
+            new.next = node
             endIndex += 1
         }
         
@@ -214,13 +214,13 @@ public class LinkedList<Element>
         
         guard index != 0 else {
             // special case ... index 0 is head
-            let oldhead = head
+            let oldHead = head
             head = head?.next // move head
             endIndex -= 1
-            return oldhead!.data
+            return oldHead!.data
         }
         
-        let prev = node(at: index  - 1)
+        let prev = gotoNode(at: index  - 1)
         let node = prev?.next
         
         assert(prev != nil)
@@ -246,12 +246,12 @@ public class LinkedList<Element>
         prev?.next = nil
         
         repeat {
-            let oldnext = node?.next
+            let oldNext = node?.next
             
             node?.next = prev
             
             prev = node
-            node = oldnext
+            node = oldNext
  
         } while (node != nil)
         
@@ -267,29 +267,29 @@ extension LinkedList : Sequence
     public class LinkedListIterator : IteratorProtocol
     {
         var head : Node?
-        var current : Node?
+        var node : Node?
         
         internal init(start : Node?, end: Node?) {
             self.head = start
-            current = start
+            node = start
         }
         public func next() -> Element? {
-            if current == nil {
+            if node == nil {
                 return nil
             }
             
-            if current === head {
+            if node === head {
                 head = nil
-                return current?.data
+                return node?.data
             }
             
-            current = current?.next
-            return current?.data
+            node = node?.next
+            return node?.data
         }
     }
     
     public func makeIterator()->LinkedListIterator {
-        return LinkedListIterator(start: head, end:endNode)
+        return LinkedListIterator(start: head, end:end)
     }
     
     
@@ -305,11 +305,11 @@ extension LinkedList : MutableCollection
     public subscript(position: Int) -> Element {
         
         set {
-            let nodeAtPos = node(at: position)
-            nodeAtPos!.data = newValue
+            let node = gotoNode(at: position)
+            node!.data = newValue
         }
         get {
-            node(at: position)!.data
+            gotoNode(at: position)!.data
         }
     }
 }
@@ -371,10 +371,10 @@ extension LinkedList: CustomStringConvertible where Element: CustomStringConvert
 extension LinkedList : RangeReplaceableCollection {
     public func removeFirst() -> Element {
         assert(count != 0)
-        let oldhead = head
+        let oldHead = head
         head=head?.next
         endIndex -= 1
-        return oldhead!.data
+        return oldHead!.data
     }
     
     
@@ -391,20 +391,20 @@ extension LinkedList : RangeReplaceableCollection {
     
     public func removeLast() -> Element {
         assert(count != 0)
-        let pennuNode = pennultimateNode
+        let pennu = pennultimateNode
         
         endIndex -= 1
-        var endNode : Node?
+        var end : Node?
         
         // special case ... head exists but has no next node
-        if head != nil && pennuNode == nil {
-            endNode = head
+        if head != nil && pennu == nil {
+            end = head
             head = nil
         } else {
-            endNode = pennuNode?.next
-            pennuNode?.next = nil
+            end = pennu?.next
+            pennu?.next = nil
         }
-        return endNode!.data
+        return end!.data
     }
     
     public func removeLast(_ k: Index)  {
@@ -412,14 +412,14 @@ extension LinkedList : RangeReplaceableCollection {
         assert(k>=startIndex)
         assert(k<=endIndex)
         
-        let prevNodeIndex = endIndex - k - 1
+        let prevIndex = endIndex - k - 1
         endIndex -= k
         
-        if prevNodeIndex<0 {
+        if prevIndex<0 {
             head=nil
         } else {
-            let prevNode = node(at: prevNodeIndex)
-            prevNode?.next = nil
+            let prev = gotoNode(at: prevIndex)
+            prev?.next = nil
         }
     }
     
@@ -428,29 +428,28 @@ extension LinkedList : RangeReplaceableCollection {
         assert(bounds.lowerBound>=startIndex)
         assert(bounds.upperBound<=endIndex)
         
-        
-        var fromNode : Node? = head
+        var from : Node? = head
         if bounds.lowerBound - 1  < 0 {
-            fromNode = nil
+            from = nil
         } else {
             for _ in 0..<bounds.lowerBound - 1 { // better performance than using node(at:)
-                fromNode = fromNode?.next
+                from = from?.next
             }
         }
-        var toNode : Node? = head
+        var to : Node? = head
         for _ in 0..<bounds.upperBound { // better performance than using node(at:)
-            toNode = toNode?.next
+            to = to?.next
         }
         
         endIndex -= bounds.upperBound - bounds.lowerBound
-        if fromNode == nil && toNode !=  nil {
-            head = toNode
+        if from == nil && to !=  nil {
+            head = to
             
-        } else if fromNode != nil && toNode == nil {
-            fromNode?.next = nil
+        } else if from != nil && to == nil {
+            from?.next = nil
         } else {
-            head = fromNode
-            fromNode?.next = toNode
+            head = from
+            from?.next = to
         }
     }
 }

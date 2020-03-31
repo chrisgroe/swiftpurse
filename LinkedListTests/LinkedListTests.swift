@@ -124,13 +124,13 @@ class LinkedListTests: XCTestCase {
         ll.append(2) //0
         ll.append(3)
         ll.append(1) //2
-        XCTAssertNil(ll.node(at: 3))
+        XCTAssertNil(ll.gotoNode(at: 3))
     }
     
     func testGetNodeByIndexEmpty() {
         let ll = LinkedList<Int>()
-        XCTAssertNil(ll.node(at: 0))
-        XCTAssertNil(ll.node(at: 1))
+        XCTAssertNil(ll.gotoNode(at: 0))
+        XCTAssertNil(ll.gotoNode(at: 1))
     }
     
     func testCount0Elements() {
