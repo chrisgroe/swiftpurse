@@ -16,6 +16,7 @@ public class LinkedList<Element>
             self.data = data
             self.next = nil
         }
+        
     }
     
     var head : Node?
@@ -65,7 +66,7 @@ public class LinkedList<Element>
             
             var currentNode = head
             while (hasNext(currentNode)) {
-                currentNode = next(currentNode)
+                currentNode = currentNode?.next
             }
             return currentNode
         }
@@ -81,7 +82,7 @@ public class LinkedList<Element>
             var penuNode : Node? = nil
             while (hasNext(currentNode)) {
                 penuNode = currentNode
-                currentNode = next(currentNode)
+                currentNode = currentNode?.next
             }
             return penuNode
         }
@@ -95,12 +96,9 @@ public class LinkedList<Element>
         endNode?.data
     }
     
-    func next(_ node : Node?) -> Node? {
-        node?.next
-    }
     
     func hasNext(_ node : Node?) -> Bool {
-        next(node) != nil
+        node!.next != nil
     }
 
     func node(at index: Int) -> Node? {
@@ -111,14 +109,14 @@ public class LinkedList<Element>
                 return head
             }
             
-            var nextNode = next(head)
+            var nextNode = head?.next
             var currIndex = 1
             
             while (nextNode != nil) {
                 if index==currIndex {
                     return nextNode
                 }
-                nextNode = next(nextNode)
+                nextNode = nextNode?.next
                 currIndex+=1
             }
         }
@@ -193,7 +191,7 @@ public class LinkedList<Element>
         } else {
             assert(index<endIndex)
             
-            let node = next(prevNode)
+            let node = prevNode?.next
             
             assert(node != nil)
             
@@ -217,13 +215,13 @@ public class LinkedList<Element>
         guard index != 0 else {
             // special case ... index 0 is head
             let oldhead = head
-            head = next(head) // move head
+            head = head?.next // move head
             endIndex -= 1
             return oldhead!.data
         }
         
         let prev = node(at: index  - 1)
-        let node = next(prev)
+        let node = prev?.next
         
         assert(prev != nil)
         assert(node != nil)
@@ -239,27 +237,25 @@ public class LinkedList<Element>
     /// - Complexity: O(n), where n is the length of the list
     public func reverse() {
         
-        guard count>=2 else {
-            // special case .. do nothing
+        guard (count>=2) else {
             return
         }
-       
-        var nextNode = next(next(head))
-        var node = next(head)
-        var prevNode = head
+        
+        var prev = head
+        var node = head?.next
+        prev?.next = nil
         
         repeat {
-            node?.next = prevNode
+            let oldnext = node?.next
             
-            if prevNode === head {
-                prevNode?.next = nil
-            }
+            node?.next = prev
             
-            prevNode = node
-            node = nextNode
-            nextNode = next(node)
+            prev = node
+            node = oldnext
+ 
         } while (node != nil)
-        head = prevNode // set new head
+        
+        head=prev
     }
 }
 
@@ -376,7 +372,7 @@ extension LinkedList : RangeReplaceableCollection {
     public func removeFirst() -> Element {
         assert(count != 0)
         let oldhead = head
-        head=next(head)
+        head=head?.next
         endIndex -= 1
         return oldhead!.data
     }
@@ -388,7 +384,7 @@ extension LinkedList : RangeReplaceableCollection {
         assert(k<=endIndex)
         
         for _ in 0..<k { // better performance than using node(at:)
-            head = next(head)
+            head = head?.next
         }
         endIndex -= k
     }
@@ -438,12 +434,12 @@ extension LinkedList : RangeReplaceableCollection {
             fromNode = nil
         } else {
             for _ in 0..<bounds.lowerBound - 1 { // better performance than using node(at:)
-                fromNode = next(fromNode)
+                fromNode = fromNode?.next
             }
         }
         var toNode : Node? = head
         for _ in 0..<bounds.upperBound { // better performance than using node(at:)
-            toNode = next(toNode)
+            toNode = toNode?.next
         }
         
         endIndex -= bounds.upperBound - bounds.lowerBound
