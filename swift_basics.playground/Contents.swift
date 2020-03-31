@@ -504,6 +504,32 @@ func doubleArg2(_ value : Int) -> Int {
 
 doubleArg2(5)
 
+// inout arguments
+func swapTwoInts(_ a: inout Int, _ b: inout Int) {
+    let temporaryA = a
+    a = b
+    b = temporaryA
+}
+
+var intA = 10
+var intB = -10
+
+swapTwoInts(&intA, &intB)
+
+intA
+intB
+
+// -------------------------------------------------------------
+// Nested functions
+// -------------------------------------------------------------
+
+func chooseStepFunction(backward: Bool) -> (Int) -> Int {
+    func stepForward(input: Int) -> Int { return input + 1 }
+    func stepBackward(input: Int) -> Int { return input - 1 }
+    return backward ? stepBackward : stepForward
+}
+
+
 // -------------------------------------------------------------
 // Returns multiple values via tuples
 // -------------------------------------------------------------
@@ -517,7 +543,7 @@ k.third
 
 
 // -------------------------------------------------------------
-// Functions are first class objects
+// Function Types : Functions are first class objects
 // -------------------------------------------------------------
 func createIncrementer() -> ((Int)->Int)
 {
@@ -531,7 +557,7 @@ var incr = createIncrementer()
 incr(5)
 
 // -------------------------------------------------------------
-// Functions as arguments
+// Function Types : Functions as arguments
 // -------------------------------------------------------------
 func funcArg(f : ((Int)->Int)) -> Int{
     f(5)
@@ -542,7 +568,7 @@ func increment(_ value : Int)-> Int {
 funcArg(f:increment)
 
 // -------------------------------------------------------------
-// Closures
+// Function Types : Closures
 // -------------------------------------------------------------
 
 // Closures and nested function do have access to variables of the scope where they are created
@@ -558,7 +584,35 @@ var closure2 : ((Int)->Int) = { value  in // after in the code starts
 
 closure2(4)
 
+var completionHandler :  (() -> ())?
 
+// Escapting Keyword
+func escapeTest(eclos : @escaping () -> ()) {
+    completionHandler = eclos // this will not work without @escaping keyword
+    
+    
+}
+class TestClass {
+    var x = 10
+    func registerEscapingClosure() {
+
+        // when using a escaping closure self must be used to access element of the class
+        escapeTest {
+            print("Escaping closure \(self.x)")
+        }
+    }
+}
+let tc = TestClass()
+tc.registerEscapingClosure()
+
+completionHandler!()
+
+// Autoclosure
+func autoClosureTest(ac : @autoclosure () -> ()) {
+    ac()
+}
+
+autoClosureTest(ac: print("Autoclosure")) // print will be put into a closure. It will only be evaluated when the closure is called
 
 // -------------------------------------------------------------
 // Single statement closures
