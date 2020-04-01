@@ -617,7 +617,7 @@ autoClosureTest(ac: print("Autoclosure")) // print will be put into a closure. I
 // -------------------------------------------------------------
 // Single statement closures
 // -------------------------------------------------------------
-// Review: map
+
 var numbers = [10, 20, 30, 40]
 print(numbers.map({number in
     return 3*number
@@ -628,6 +628,8 @@ numbers.map({number in 3*number}) // Review: map
 
 // or even shorter
 numbers.map({4*$0})
+
+
 
 var closure3  = { $0*3 } // $0 can be deduced by return type .. without *3 it will not work
 closure3
@@ -641,7 +643,7 @@ closure3(4)
 // -------------------------------------------------------------
 // Classes
 // -------------------------------------------------------------
-class TestClass {
+class TestClass2 {
     var attrib1 = 0
     var attrib2 = 0
     
@@ -655,13 +657,13 @@ class TestClass {
     }
 }
 
-var testClass = TestClass(attrib1:40)
+var testClass = TestClass2(attrib1:40)
 testClass.doSomething()
 
 // -------------------------------------------------------------
 // Inheritance
 // -------------------------------------------------------------
-class InhTestClass: TestClass {
+class InhTestClass: TestClass2 {
     override init(attrib1: Int) {
         super.init(attrib1:attrib1*10)
     }
@@ -921,3 +923,22 @@ func testGuard(val : Int?) -> String
 
 testGuard(val: nil)
 testGuard(val: 1)
+
+
+// -------------------------------------------------------------
+// mapping methods
+// -------------------------------------------------------------
+var fnumbers  = [[1,2,3],[4],[5,6,7,8,9]]
+type(of: fnumbers)
+var cnumbers = fnumbers.flatMap{$0}
+
+cnumbers
+type(of:cnumbers)
+
+
+var fnumbers2  = [1,2,3,4,nil, 5,6,7,8,9, nil]
+type(of: fnumbers2)
+var cnumbers2 = fnumbers2.compactMap{$0}
+
+cnumbers2
+type(of:cnumbers2)

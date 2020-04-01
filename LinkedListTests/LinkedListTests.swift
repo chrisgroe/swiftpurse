@@ -561,5 +561,85 @@ class LinkedListTests: XCTestCase {
             }
         }
     }
+    
+    func testFlattenSingleList()
+    {
+        let ll = LinkedList<Any>(1, 2, 3)
+        
+        ll.flatten()
+        XCTAssertEqual(ll.count, 3)
+        XCTAssertEqual(ll[0] as! Int, 1)
+        XCTAssertEqual(ll[1] as! Int, 2)
+        XCTAssertEqual(ll[2] as! Int, 3)
+        
+    }
+    
+    func testFlattenDoubleList()
+    {
+        let ll = LinkedList<Any>(LinkedList<Any>(1, 2, 3))
+        
+        ll.flatten()
+        XCTAssertEqual(ll.count, 3)
+        XCTAssertEqual(ll[0] as! Int, 1)
+        XCTAssertEqual(ll[1] as! Int, 2)
+        XCTAssertEqual(ll[2] as! Int, 3)
+        
+    }
+    
+    func testFlattenDoubleListWithOneElementAtBegin()
+    {
+        let ll = LinkedList<Any>(1,LinkedList<Any>(2, 3, 4))
+        
+        ll.flatten()
+        XCTAssertEqual(ll.count, 4)
+        XCTAssertEqual(ll[0] as! Int, 1)
+        XCTAssertEqual(ll[1] as! Int, 2)
+        XCTAssertEqual(ll[2] as! Int, 3)
+        XCTAssertEqual(ll[3] as! Int, 4)
+        
+    }
+    
+    func testFlattenDoubleListWithOneElementAtEnd()
+    {
+        let ll = LinkedList<Any>(LinkedList<Any>(1, 2, 3),4)
+        
+        ll.flatten()
+        XCTAssertEqual(ll.count, 4)
+        XCTAssertEqual(ll[0] as! Int, 1)
+        XCTAssertEqual(ll[1] as! Int, 2)
+        XCTAssertEqual(ll[2] as! Int, 3)
+        XCTAssertEqual(ll[3] as! Int, 4)
+        
+    }
+    
+    func testFlattenDoubleLists()
+    {
+        let ll = LinkedList<Any>(LinkedList<Any>(1,2),LinkedList<Any>(3))
+        
+        ll.flatten()
+        XCTAssertEqual(ll.count, 3)
+        XCTAssertEqual(ll[0] as! Int, 1)
+        XCTAssertEqual(ll[1] as! Int, 2)
+        XCTAssertEqual(ll[2] as! Int, 3)
+        
+    }
+    
+    
+    func testFlatten()
+    {
+        let ll = LinkedList<Any>(LinkedList<Any>(1, 1), 2, LinkedList<Any>(3, LinkedList<Any>(5, 8)))
+        
+        ll.flatten()
+        XCTAssertEqual(ll.count, 6)
+        XCTAssertEqual(ll[0] as! Int, 1)
+        XCTAssertEqual(ll[1] as! Int, 1)
+        XCTAssertEqual(ll[2] as! Int, 2)
+        XCTAssertEqual(ll[3] as! Int, 3)
+        XCTAssertEqual(ll[4] as! Int, 5)
+        XCTAssertEqual(ll[5] as! Int, 8)
+    }
+    
+
+
 
 }

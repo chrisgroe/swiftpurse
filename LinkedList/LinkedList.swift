@@ -470,3 +470,46 @@ extension LinkedList: Equatable where Element: Equatable {
     }
 }
 
+
+// Flatten a nested linked list structure.
+extension LinkedList where Element : Any{
+    public func flatten() {
+        var node = head
+        var prevNode : Node? = nil
+        var idx = 0
+        repeat
+        {
+            
+            if let data =  node!.data as? LinkedList<Element> {
+                
+                // Step 1: flatten the list contained in the list
+                data.flatten()
+                
+                // Step 2:
+                // remove the list from the containing list
+                endIndex -= 1
+                if prevNode == nil {
+                    head = node!.next
+                    
+                } else
+                {
+                    prevNode = node!.next
+                }
+                
+                // insert the elements at the respective positions
+                for (ni,i) in data.enumerated() {
+                    self.insert(i, at:idx+ni) // this can be more efficient if needed
+                    
+                }
+                idx += data.count - 1
+            }
+            prevNode = node
+            node = node!.next
+            
+            idx += 1
+        } while (node != nil)
+        
+        
+    }
+}
+

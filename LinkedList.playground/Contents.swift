@@ -30,6 +30,7 @@ ll.removeAll()
 var arr = Array<Int>(1...3)
 
 
+// Find out whether a linked list is a palindrome.
 
 extension LinkedList where Element: Equatable{
     public func isPalindrome() -> Bool {
@@ -57,3 +58,14 @@ l2.isPalindrome()
 
 let l3 = LinkedList(1,2,3,4,2,1)
 l3.isPalindrome()
+
+
+
+let l4 = LinkedList<Any>(LinkedList<Any>(1, 1), 2, LinkedList<Any>(3, LinkedList<Any>(5, 8)))
+
+
+l4.flatten()
+
+for i in l4 {
+    print(i)
+}
