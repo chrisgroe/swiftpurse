@@ -720,14 +720,54 @@ testObj?.testMethod() // returns nil if test? Is nil
 enum Rank : Int{
     case first = 1
     case second = 2
+    case third = 3
 }
 
 var rank:Rank = Rank.first;
 
-// -------------------------------------------------------------
-// Enums can have methods and store state
-// -------------------------------------------------------------
-enum Rank2 : Int{
+// Iterable enum
+enum Rank2 : CaseIterable{
+    case first
+    case second
+    case third
+}
+Rank2.allCases
+
+// Recursive enums
+
+enum ArithmeticExpression {
+    case value(Int)
+    indirect case Addition(ArithmeticExpression, ArithmeticExpression) // insert level of indirection
+    indirect case Multiplication(ArithmeticExpression, ArithmeticExpression)
+}
+
+// We can initialize custom values with ArithmeticExpression enums as follows
+
+let firstNumber = ArithmeticExpression.value(10)
+let secondNumber = ArithmeticExpression.value(2)
+let addition = ArithmeticExpression.Addition(firstNumber, secondNumber)
+
+let multiplication = ArithmeticExpression.Multiplication(firstNumber, secondNumber)
+
+// how to use that
+func computeValue(input: ArithmeticExpression) -> Int {
+    switch input {
+    case .value(let val):
+        return val
+    case .Addition(let exp1, let exp2):
+        return computeValue(input: exp1) + computeValue(input: exp2)
+    case .Multiplication(let exp1, let exp2):
+        return computeValue(input: exp1) * computeValue(input: exp2)
+    }
+}
+
+// Now utilizing this function we can easily compute the values of expressions above,
+
+// additionResult = 12
+let additionResult = computeValue(input: addition)
+
+// Enums can have methods
+enum Rank3 : Int{
     case first = 1
     case second = 2
     
@@ -743,24 +783,21 @@ enum Rank2 : Int{
     }
 }
 
-var rank2:Rank2 = .first
-var rank2_2 = Rank2.first
-rank2.toString()
+var rank3_1:Rank3 = .first
+var rank3_2 = Rank3.first
+rank3_2.toString()
 
-// -------------------------------------------------------------
+
 // Access raw value of enum
-// -------------------------------------------------------------
-rank2.rawValue
-var rank3_1 = Rank2(rawValue: 1)
-var rank3_2 = Rank2(rawValue: 0) // does not exists
+rank3_2.rawValue
+var rank3_3 = Rank3(rawValue: 1)
+var rank3_4 = Rank3(rawValue: 0) // does not exists
 
-if let rank3_3 = Rank2(rawValue:2) {
-    rank3_3.toString()
+if let rank3_5 = Rank3(rawValue:2) {
+    rank3_5.toString()
 }
 
-// -------------------------------------------------------------
-// Enum with properties
-// -------------------------------------------------------------
+// Enum with associated values
 enum PropEnum {
     case sucess(arg:Int)
     case failure(error:String)
@@ -776,10 +813,10 @@ enum PropEnum {
     }
 }
 
-var succ = PropEnum.sucess(arg: 5)
-var fail = PropEnum.failure(error: "TEST")
-succ.toString()
-fail.toString()
+var sucess = PropEnum.sucess(arg: 5)
+var failure = PropEnum.failure(error: "TEST")
+sucess.toString()
+failure.toString()
 
 // -------------------------------------------------------------
 // Structs are value types
