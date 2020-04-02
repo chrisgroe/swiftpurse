@@ -511,5 +511,100 @@ extension LinkedList where Element : Any{
         
         
     }
+    
+    
 }
 
+
+extension LinkedList where Element : Equatable{
+    
+    // Compress a linked list .
+    public func compress() {
+        
+        var prev : Node? = nil
+        var node = head
+        var next = node?.next
+
+        var lastContent : Element? = nil
+        repeat
+        {
+         
+            if let last = lastContent, let act = node?.data {
+                
+                if last == act {
+                    
+                    // remove node
+                    prev?.next = next // pass element
+                    endIndex -= 1
+                    
+                    // the actual node is now prev 
+                    node = prev
+                }
+                else
+                {
+                    lastContent = node?.data
+                }
+            }
+            else
+            {
+                lastContent = node?.data
+            }
+            
+            //advance
+            prev = node
+            node = prev?.next
+            next = node?.next
+        
+        } while (node != nil)
+        
+        
+    }
+    
+    // Pack a linked list
+    func pack () -> LinkedList<LinkedList<Element>> {
+        
+        guard(count>0) else {
+            return LinkedList<LinkedList<Element>>()
+        }
+        
+        let reList =  LinkedList<LinkedList<Element>>()
+    
+        var prev : Node? = nil
+        var node = head
+        
+        var lastContent : Element? = nil
+        var lastList = LinkedList<Element>()
+        
+        repeat
+        {
+         
+            if let last = lastContent, let act = node?.data {
+                
+                if last == act {
+                    
+                    // use prepend because its not as much cost sensitive than append
+                    lastList.prepend(lastContent!)
+                }
+                else
+                {
+                    lastContent = node?.data
+                    reList.append(lastList)
+                    lastList = LinkedList<Element>(lastContent!)
+                }
+            }
+            else
+            {
+                lastContent = node?.data
+                lastList = LinkedList<Element>(lastContent!)
+            }
+            
+            //advance
+            prev = node
+            node = prev?.next
+ 
+        } while (node != nil)
+        
+        reList.append(lastList)
+        return reList
+    }
+}

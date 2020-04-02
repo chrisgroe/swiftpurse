@@ -639,7 +639,91 @@ class LinkedListTests: XCTestCase {
         XCTAssertEqual(ll[5] as! Int, 8)
     }
     
+    
+    func testCompressEmptyList() {
+        let list = LinkedList<String>()
+        list.compress()
+        
+        XCTAssertEqual(list.count, 0)
+        XCTAssertEqual(Array<String>(list), [])
+    }
+    func testCompress1Element() {
+        let list = LinkedList<String>("a")
+        list.compress()
+        
+        XCTAssertEqual(list.count, 1)
+        XCTAssertEqual(Array<String>(list), ["a"])
+    }
+    
+    func testCompress2Elements() {
+        let list = LinkedList<String>("a","b")
+        list.compress()
+        
+        XCTAssertEqual(list.count, 2)
+        XCTAssertEqual(Array<String>(list), ["a","b"])
+    }
+    func testCompress2Elements2same() {
+        let list = LinkedList<String>("a","a")
+        list.compress()
+        
+        XCTAssertEqual(list.count, 1)
+        XCTAssertEqual(Array<String>(list), ["a"])
+    }
+    
+    func testCompress2Elements3same() {
+        let list = LinkedList<String>("a","a","a")
+        list.compress()
+        
+        XCTAssertEqual(list.count, 1)
+        XCTAssertEqual(Array<String>(list), ["a"])
+    }
+    
+    
+    func testCompressLongList() {
+        let list = LinkedList("a", "a", "a", "a", "b", "c", "c", "a", "a", "d", "e", "e", "e", "e")
+        list.compress()
+        
+        XCTAssertEqual(list.count, 6)
+        XCTAssertEqual(Array<String>(list), ["a", "b", "c", "a", "d", "e"])
+    }
 
 
-
+    func testPack0Elements() {
+        let list = LinkedList<String>()
+        let packed = list.pack()
+        
+        XCTAssertEqual(packed.count, 0)
+    }
+    func testPack1Element() {
+        let list = LinkedList<String>("a")
+        let packed = list.pack()
+        
+        XCTAssertEqual(packed.count, 1)
+        XCTAssertEqual(Array<String>(packed[0]), ["a"])
+    }
+    
+    func testPack2Elements() {
+        let list = LinkedList<String>("a","b")
+        let packed = list.pack()
+        
+        XCTAssertEqual(packed.count, 2)
+        XCTAssertEqual(Array<String>(packed[0]), ["a"])
+        XCTAssertEqual(Array<String>(packed[1]), ["b"])
+    }
+    
+    func testPackLongList() {
+        let list = LinkedList<String>("a", "a", "a", "a", "b", "c", "c", "a", "a", "d", "e", "e", "e", "e")
+        let packed = list.pack()
+        
+        XCTAssertEqual(packed.count, 6)
+        
+        XCTAssertEqual(Array<String>(packed[0]), ["a", "a", "a", "a"])
+        XCTAssertEqual(Array<String>(packed[1]), ["b"])
+        XCTAssertEqual(Array<String>(packed[2]), ["c", "c"])
+        XCTAssertEqual(Array<String>(packed[3]), ["a", "a"])
+        XCTAssertEqual(Array<String>(packed[4]), ["d"])
+        XCTAssertEqual(Array<String>(packed[5]), ["e", "e", "e", "e"])
+    }
+    
+    
 }
