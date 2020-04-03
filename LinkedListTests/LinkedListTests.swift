@@ -751,7 +751,17 @@ class LinkedListTests: XCTestCase {
            XCTAssertTrue(encoded[3] as! (Int, String) == (2, "a"))
            XCTAssertTrue(encoded[4] as! String == "d")
            XCTAssertTrue(encoded[5] as! (Int, String) == (4, "e"))
-         }
+    }
+    
+    func testDecode() {
+        let list = LinkedList((4, "a"), (1, "b"), (2, "c"), (2, "a"), (1, "d"), (4, "e"))
+        let decoded = list.decode()
+
+        XCTAssertEqual(decoded.count, 14)
+        XCTAssertEqual(Array<String>(decoded), ["a", "a", "a", "a", "b", "c", "c", "a", "a", "d", "e", "e", "e", "e"])
+   
+    }
+    
     
     
 }

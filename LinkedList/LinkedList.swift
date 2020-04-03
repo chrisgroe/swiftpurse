@@ -641,4 +641,21 @@ extension LinkedList where Element : Equatable{
         
     }
     
+   
+        
+    
+}
+
+extension LinkedList where Element == (Int, String) {
+    func decode() -> LinkedList<String> {
+        let ll = LinkedList<String>()
+        
+        for i in self {
+            for _ in 0..<i.0 {
+                ll.append(i.1) // not efficient but simple
+            }
+        }
+        return ll
+        
+    }
 }
