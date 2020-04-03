@@ -672,8 +672,45 @@ class InhTestClass: TestClass2 {
 var inhTestClass = InhTestClass(attrib1 : 10)
 inhTestClass.doSomething()
 
+
 // -------------------------------------------------------------
-// Setter, Getter, WillSet, DidSet
+// Properties
+// -------------------------------------------------------------
+
+class ClassProp { // reference type
+    var testVar : Int = 0
+}
+
+struct StructProp { // value type
+    var testVar : Int = 0
+}
+
+let v1 = ClassProp()
+let v2 = StructProp()
+
+v1.testVar = 10
+// v2.testVar = 10 not allowed because StructProp is value type
+
+
+
+// Lazy
+
+class ClassProp1 {
+    lazy var test = ClassProp() // will only be created when accesses not before!
+}
+
+// read only property
+
+class ClassProp2 {
+    var test : Int{ // read only with implicit return
+        1+1
+    }
+}
+
+
+
+// -------------------------------------------------------------
+// Setter, Getter / Property observer willSet, didSet
 // -------------------------------------------------------------
 class GetSet {
     var  a : Int {
@@ -706,6 +743,42 @@ class GetSet {
 var getSet = GetSet()
 getSet.a = 10
 getSet.b = 10
+
+// Property wrappers
+@propertyWrapper
+struct SmallNumber {
+    private var number = 0
+    private var max : Int = 12
+    init(max : Int) {
+        self.max = max
+    }
+    var projectedValue : Bool = false
+    var wrappedValue: Int {
+        get { return number }
+        set { number = min(newValue, max) }
+    }
+}
+
+
+class ClassProp3 {
+    @SmallNumber(max: 14) var abc : Int;
+}
+
+var prop3 = ClassProp3()
+prop3.abc = 15
+prop3.abc
+prop3.$abc // projected value ... also self or object can be returned
+
+// Type properties
+
+struct TypeProp {
+    static var abc : Int = 123
+}
+
+TypeProp.abc
+TypeProp.abc = 345
+TypeProp.abc
+
 
 // -------------------------------------------------------------
 // Nil handling
@@ -996,3 +1069,5 @@ ref2 = ref1
 
 ref1 === ref2 // are instances identical
 ref1 !== ref2 // are instances not identical
+
+
