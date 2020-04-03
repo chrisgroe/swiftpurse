@@ -607,4 +607,38 @@ extension LinkedList where Element : Equatable{
         reList.append(lastList)
         return reList
     }
+    
+    func encode() -> LinkedList<(Int, Element)>{
+        let re = LinkedList<(Int, Element)>()
+        
+        let packed = self.pack()
+        
+        
+        for i in packed {
+            re.append((i.count, i[0]))
+        }
+        
+        return re
+        
+    }
+    
+    func encodeModified() -> LinkedList<Any> {
+        let re = LinkedList<Any>()
+        
+        let packed = self.pack()
+        
+        
+        for i in packed {
+            if i.count == 1 {
+                re.append(i[0])
+            } else {
+                re.append((i.count, i[0]))
+            }
+        }
+        
+        return re
+        
+        
+    }
+    
 }

@@ -67,5 +67,6 @@ let l4 = LinkedList<Any>(LinkedList<Any>(1, 1), 2, LinkedList<Any>(3, LinkedList
 l4.flatten()
 
 for i in l4 {
-    print(i)
+    i
 }
+

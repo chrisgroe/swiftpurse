@@ -725,5 +725,33 @@ class LinkedListTests: XCTestCase {
         XCTAssertEqual(Array<String>(packed[5]), ["e", "e", "e", "e"])
     }
     
+    func testEncodeElements() {
+        let list = LinkedList<String>("a", "a", "a", "a", "b", "c", "c", "a", "a", "d", "e", "e", "e", "e")
+        let encoded = list.encode()
+
+        XCTAssertEqual(encoded.count, 6)
+
+        XCTAssertTrue(encoded[0] == (4, "a"))
+        XCTAssertTrue(encoded[1] == (1, "b"))
+        XCTAssertTrue(encoded[2] == (2, "c"))
+        XCTAssertTrue(encoded[3] == (2, "a"))
+        XCTAssertTrue(encoded[4] == (1, "d"))
+        XCTAssertTrue(encoded[5] == (4, "e"))
+      }
+    
+    func testEncodeModifiedElements() {
+           let list = LinkedList<String>("a", "a", "a", "a", "b", "c", "c", "a", "a", "d", "e", "e", "e", "e")
+           let encoded = list.encodeModified()
+
+           XCTAssertEqual(encoded.count, 6)
+
+           XCTAssertTrue(encoded[0] as! (Int, String) == (4, "a"))
+           XCTAssertTrue(encoded[1] as! String == "b")
+           XCTAssertTrue(encoded[2] as! (Int, String) == (2, "c"))
+           XCTAssertTrue(encoded[3] as! (Int, String) == (2, "a"))
+           XCTAssertTrue(encoded[4] as! String == "d")
+           XCTAssertTrue(encoded[5] as! (Int, String) == (4, "e"))
+         }
+    
     
 }

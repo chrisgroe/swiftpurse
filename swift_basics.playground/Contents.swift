@@ -979,3 +979,20 @@ var cnumbers2 = fnumbers2.compactMap{$0}
 
 cnumbers2
 type(of:cnumbers2)
+
+
+// -------------------------------------------------------------
+// Identity Operators
+// -------------------------------------------------------------
+
+
+var ref1 = NSObject()
+var ref2 = NSObject()
+
+ref1 === ref2 // are instances identical
+ref1 !== ref2 // are instances not identical
+
+ref2 = ref1
+
+ref1 === ref2 // are instances identical
+ref1 !== ref2 // are instances not identical
