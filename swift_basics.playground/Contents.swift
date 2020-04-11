@@ -667,7 +667,13 @@ class InhTestClass: TestClass2 {
     override init(attrib1: Int) {
         super.init(attrib1:attrib1*10)
     }
+    
+    final func finalFunc() { // preveting overrides cannot be overriden anymore 
+        print("final")
+    }
 }
+
+// a final class cannot be overriden
 
 var inhTestClass = InhTestClass(attrib1 : 10)
 inhTestClass.doSomething()
@@ -730,6 +736,10 @@ class GetSet {
             print("after") // called after value is assigned
         }
     }
+    
+    var c: Int {
+        return 11 // read only property
+    }
     init() {
         self.b = 0
     }
@@ -743,6 +753,7 @@ class GetSet {
 var getSet = GetSet()
 getSet.a = 10
 getSet.b = 10
+getSet.c
 
 // Property wrappers
 @propertyWrapper
@@ -769,16 +780,22 @@ prop3.abc = 15
 prop3.abc
 prop3.$abc // projected value ... also self or object can be returned
 
-// Type properties
+// Type properties and type methods
 
 struct TypeProp {
     static var abc : Int = 123
+    
+    static func increment() {
+        self.abc += 1 // self refers to the type here
+    }
 }
 
 TypeProp.abc
 TypeProp.abc = 345
 TypeProp.abc
 
+TypeProp.increment()
+TypeProp.abc
 
 // -------------------------------------------------------------
 // Nil handling
@@ -1071,3 +1088,47 @@ ref1 === ref2 // are instances identical
 ref1 !== ref2 // are instances not identical
 
 
+// -------------------------------------------------------------
+// Subscripts
+// -------------------------------------------------------------
+
+
+class SubscriptTest {
+    subscript( pos : Int) -> Int {
+        get {
+            return pos+1
+        }
+        set {
+            // can be used, but currently does nothing
+        }
+    }
+    
+    subscript( pos : Int, label: String) -> String {
+        return "\(label) - \(pos+1)" // read only
+    }
+    
+    // Type subscript
+    static subscript( pos : Int) -> Int {
+        return pos+1
+    }
+
+    
+}
+
+var subTest = SubscriptTest()
+subTest[10]
+subTest[10,"Test"]
+SubscriptTest[10]
+
+
+class InitializerTest {
+    var a : Int
+    init() {
+                a=0
+        a=a+1
+
+    }
+}
+
+
+let test =  InitializerTest()
